@@ -34,7 +34,7 @@ public class Tache {
         }
 
         public void deleteTask(Connection maConnection) throws SQLException{
-            PreparedStatement requetePrepare = maConnection.prepareStatement("DELETE FROM tache WHERE ?");
+            PreparedStatement requetePrepare = maConnection.prepareStatement("DELETE FROM tache WHERE id_tache=?");
             requetePrepare.setInt(1, this.id_tache);
             requetePrepare.executeUpdate();
         }
