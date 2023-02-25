@@ -1,5 +1,4 @@
 package todolist;
-import bdd.Bdd;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -19,19 +18,20 @@ public class Tache {
         }
 
         public void createTask(Connection maConnection) throws SQLException {
-            PreparedStatement requetePrepare = maConnection.prepareStatement("INSERT INTO tache VALUES (?,?,?)");
-            requetePrepare.setString(1, this.nom);
-            requetePrepare.setString(2, this.description);
-            requetePrepare.setBoolean(3, this.est_realise);
+            PreparedStatement requetePrepare = maConnection.prepareStatement("INSERT INTO tache VALUES (?,?,?,?)");
+            requetePrepare.setInt(1,this.id_tache);
+            requetePrepare.setString(2, this.nom);
+            requetePrepare.setString(3, this.description);
+            requetePrepare.setBoolean(4, this.est_realise);
             requetePrepare.executeUpdate();
         }
 
         public void updateTask(Connection maConnection) throws SQLException {
-            PreparedStatement requetePrepare = maConnection.prepareStatement("UPDATE tache SET (?,?,?) WHERE id_tache = ?");
+            PreparedStatement requetePrepare = maConnection.prepareStatement("UPDATE tache SET (nom = ?, description = ?, est_realise = ?) WHERE id_tache = ?");
             requetePrepare.setString(1,this.nom);
             requetePrepare.setString(2,this.description);
-            requetePrepare.setBoolean(3, est_realise);
-            requetePrepare.setInt(4, id_tache);
+            requetePrepare.setBoolean(3, this.est_realise);
+            requetePrepare.setInt(4, this.id_tache);
             requetePrepare.executeUpdate();
         }
 
