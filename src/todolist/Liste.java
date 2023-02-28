@@ -29,8 +29,7 @@ public class Liste {
     }
 
 
-    public Liste(int id_liste, String nom, String description) {
-        this.id_liste = id_liste;
+    public Liste( String nom, String description) {
         this.nom = nom;
         this.description = description;
         this.bdd = bdd;
