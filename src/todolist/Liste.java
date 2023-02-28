@@ -1,6 +1,5 @@
 package todolist;
 import bdd.Bdd;
-import todolist.Tache;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ public class Liste {
     }
 
 
-    public Liste( String nom, String description) {
+    public Liste(String nom, String description, Bdd bdd) {
         this.nom = nom;
         this.description = description;
         this.bdd = bdd;
@@ -37,9 +36,9 @@ public class Liste {
 
     public void createList() throws SQLException {
         if (this.verifStringFormat(this.nom) && this.verifStringFormat(this.description)) {
-            PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("INSERT INTO liste VALUES (?,?,?)");
-            requetePrepare.setString(1, nom);
-            requetePrepare.setString(2, description);
+            PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("INSERT INTO liste VALUES (?,?)");
+            requetePrepare.setString(1, this.nom);
+            requetePrepare.setString(2, this.description);
             requetePrepare.executeUpdate();
         }
     }
