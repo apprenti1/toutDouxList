@@ -12,7 +12,5 @@ public class Bdd {
         return maConnection;
     }
 
-    /* public Connection getConnection(){
-        return this.maConnection;
-    } */
+
 }
