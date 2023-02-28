@@ -6,7 +6,8 @@ import java.util.ArrayList;
 
 public class Liste {
 
-    private ArrayList<Tache> taches = new ArrayList<Tache>();
+    private ArrayList<Liste> listes = new ArrayList<Liste>();
+    private ArrayList<Tache>taches = new ArrayList<Tache>();
     private int id_liste;
     private String nom;
     private String description;
@@ -32,11 +33,20 @@ public class Liste {
         this.nom = nom;
         this.description = description;
         this.bdd = bdd;
+        this.taches = new ArrayList<Tache>();
+        this.listes = new ArrayList<Liste>();
+    }
+
+    public String afficherListe() {
+        for (int i = 0; i < listes.size(); i++) {
+            String message = String.valueOf(this.listes.get(i));
+            return message;
+        }
     }
 
     public void createList() throws SQLException {
         if (this.verifStringFormat(this.nom) && this.verifStringFormat(this.description)) {
-            PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("INSERT INTO liste VALUES (?,?)");
+            PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("INSERT INTO liste(nom,description) VALUES (?,?)");
             requetePrepare.setString(1, this.nom);
             requetePrepare.setString(2, this.description);
             requetePrepare.executeUpdate();
@@ -58,7 +68,7 @@ public class Liste {
         }
 
             public void deleteList () throws SQLException {
-                PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("DELETE FROM tache WHERE id_tache=?");
+                PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("DELETE FROM tache WHERE id_liste=?");
                 requetePrepare.setInt(1, this.id_liste);
                 requetePrepare.executeUpdate();
             }
