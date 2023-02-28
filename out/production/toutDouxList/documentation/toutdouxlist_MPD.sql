@@ -1,4 +1,31 @@
+-- phpMyAdmin SQL Dump
+-- version 5.2.0
+-- https://www.phpmyadmin.net/
+--
+-- Hôte : 127.0.0.1:3306
+-- Généré le : mar. 28 fév. 2023 à 09:36
+-- Version du serveur : 8.0.31
+-- Version de PHP : 8.0.26
 
+SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+START TRANSACTION;
+SET time_zone = "+00:00";
+
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
+--
+-- Base de données : `toutdouxlist`
+--
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `liste`
+--
 
 DROP TABLE IF EXISTS `liste`;
 CREATE TABLE IF NOT EXISTS `liste` (
@@ -36,7 +63,9 @@ CREATE TABLE IF NOT EXISTS `tache` (
   `est_realise` tinyint(1) NOT NULL,
   `tache.ref_liste` int NOT NULL,
   `ref_type` int NOT NULL,
-  PRIMARY KEY (`id_tache`)
+  PRIMARY KEY (`id_tache`),
+  KEY `ref_type` (`ref_type`),
+  KEY `tache.ref_liste` (`tache.ref_liste`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- --------------------------------------------------------
@@ -69,14 +98,25 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   PRIMARY KEY (`id_utilisateur`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
+--
+-- Contraintes pour les tables déchargées
+--
 
+--
+-- Contraintes pour la table `participe`
+--
 ALTER TABLE `participe`
   ADD CONSTRAINT `ref_liste` FOREIGN KEY (`participe.ref_liste`) REFERENCES `liste` (`id_liste`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `ref_utilisateur` FOREIGN KEY (`ref_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Contraintes pour la table `tache`
+--
+ALTER TABLE `tache`
+  ADD CONSTRAINT `ref_type` FOREIGN KEY (`ref_type`) REFERENCES `type` (`id_type`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `tache.ref_liste` FOREIGN KEY (`tache.ref_liste`) REFERENCES `liste` (`id_liste`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 COMMIT;
 
-ALTER TABLE `tache`
-ADD CONSTRAINT `tache.ref_liste` FOREIGN KEY(`tache.ref_liste`) REFERENCES 'liste'('id_liste') ON DELETE CASCADE ON UPDATE CASCADE
-ADD CONSTRAINT `ref_type` FOREIGN KEY(`ref_type`) REFERENCES 'type'('id_type') ON DELETE CASCADE ON UPDATE CASCADE;
-
-
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
