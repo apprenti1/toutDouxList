@@ -1,5 +1,7 @@
 package utilisateur;
 import bdd.Bdd;
+
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -10,11 +12,8 @@ public class Utilisateur {
     private String prenom;
     private String email;
     private String mdp;
-    private String oldnom;
-    private String oldprenom;
     private String oldemail;
-    private String oldmdp;
-    private Bdd bdd;
+    private Connection bdd;
 
 
     private boolean connected = false;
@@ -22,19 +21,19 @@ public class Utilisateur {
     public Utilisateur (String email, String mdp, Bdd bdd){
         this.email = email;
         this.mdp = mdp;
-        this.bdd = bdd;
+        this.bdd = bdd.getMaConnection();
     }
     public Utilisateur (String nom, String prenom, String email, String mdp, Bdd bdd){
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.mdp = mdp;
-        this.bdd = bdd;
+        this.bdd = bdd.getMaConnection();
     }
 
     public boolean connect() throws SQLException {
         if (this.verifStringFormat(this.email)&&this.verifStringFormat(this.mdp)){
-            PreparedStatement req = this.bdd.getMaConnection().prepareStatement("SELECT id_utilisateur, nom, prenom from utilisateur where login = ? and mdp = ? ;");
+            PreparedStatement req = this.bdd.prepareStatement("SELECT id_utilisateur, nom, prenom from utilisateur where login = ? and mdp = ? ;");
             req.setString(1, this.email);
             req.setString(2, this.mdp);
 
@@ -43,10 +42,7 @@ public class Utilisateur {
                 this.id_user = rs.getInt("id_utilisateur");
                 this.nom = rs.getString("nom");
                 this.prenom = rs.getString("prenom");
-                this.oldnom = this.nom;
-                this.oldprenom = this.prenom;
                 this.oldemail = this.email;
-                this.oldmdp = this.mdp;
                 this.connected = true;
                 return true;
             }else{return false;}
@@ -59,7 +55,7 @@ public class Utilisateur {
                 if (this.email != this.oldemail && this.verifExistEmail()){
                     return false;
                 }
-                PreparedStatement req = this.bdd.getMaConnection().prepareStatement("UPDATE utilisateur SET nom = ?, prenom = ?, login = ?, mdp = ? WHERE id_utilisateur = ?");
+                PreparedStatement req = this.bdd.prepareStatement("UPDATE utilisateur SET nom = ?, prenom = ?, login = ?, mdp = ? WHERE id_utilisateur = ?");
                 req.setString(1, this.nom);
                 req.setString(2, this.prenom);
                 req.setString(3, this.email);
@@ -76,7 +72,7 @@ public class Utilisateur {
 
     public void delete() throws SQLException {
         if (this.connected){
-            PreparedStatement req = this.bdd.getMaConnection().prepareStatement("DELETE FROM utilisateur WHERE id_utilisateur = ?");
+            PreparedStatement req = this.bdd.prepareStatement("DELETE FROM utilisateur WHERE id_utilisateur = ?");
             req.setInt(1, this.id_user);
             req.executeUpdate();
             this.connected = false;
@@ -86,7 +82,7 @@ public class Utilisateur {
     public boolean insert() throws SQLException {
         if (!this.connected && !this.verifExistEmail() && this.verifStringFormat(this.nom)&&this.verifStringFormat(this.prenom)&&this.verifStringFormat(this.email)&&this.verifStringFormat(this.mdp)){
             try {
-            PreparedStatement req = this.bdd.getMaConnection().prepareStatement("INSERT INTO utilisateur (nom, prenom, login, mdp) VALUES (?,?,?,?) ;");
+            PreparedStatement req = this.bdd.prepareStatement("INSERT INTO utilisateur (nom, prenom, login, mdp) VALUES (?,?,?,?) ;");
             req.setString(1, this.nom);
             req.setString(2, this.prenom);
             req.setString(3, this.email);
@@ -111,7 +107,7 @@ public class Utilisateur {
             return true;
         } else{ return false;}}
     private boolean verifExistEmail() throws SQLException {
-        PreparedStatement req = this.bdd.getMaConnection().prepareStatement("SELECT count(id_utilisateur) from utilisateur where login = ?;");
+        PreparedStatement req = this.bdd.prepareStatement("SELECT count(id_utilisateur) from utilisateur where login = ?;");
         req.setString(1, this.email);
         ResultSet rs = req.executeQuery();
         rs.next();
