@@ -19,6 +19,12 @@ public class Tache {
         this.bdd = bdd;
     }
 
+    public Tache (String nom, String description, Bdd bdd) {
+        this.nom = nom;
+        this.description = description;
+        this.bdd = bdd;
+    }
+
     private boolean verifStringFormat(String text) {
         if ((text.indexOf('"') +
                 text.indexOf("'") +
@@ -36,7 +42,7 @@ public class Tache {
 
     public void createTask() throws SQLException {
         if (this.verifStringFormat(this.nom) && this.verifStringFormat(this.description)) {
-            PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("INSERT INTO tache VALUES (?,?,?)");
+            PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("INSERT INTO tache (nom, description, est_realise) VALUES (?,?,?)");
             requetePrepare.setString(1, nom);
             requetePrepare.setString(2, description);
             requetePrepare.setBoolean(3, est_realise);
@@ -67,4 +73,15 @@ public class Tache {
         requetePrepare.setInt(2, this.id_tache);
         requetePrepare.executeUpdate();
     }
+
+    public int getId_tache() { return id_tache; }
+    public void setId_tache(int id_tache) { this.id_tache = id_tache; }
+    public String getNom() { return nom; }
+    public void setNom(String nom) { this.nom = nom; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+    public boolean isEst_realise() { return est_realise; }
+    public void setEst_realise(boolean est_realise) { this.est_realise = est_realise; }
+    public Bdd getBdd() { return bdd; }
+    public void setBdd(Bdd bdd) { this.bdd = bdd; }
 }
