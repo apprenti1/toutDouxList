@@ -1,5 +1,7 @@
 package todolist;
 import bdd.Bdd;
+import oracle.jdbc.internal.XSCacheOutput;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -38,10 +40,11 @@ public class Liste {
     }
 
     public String afficherListe() {
+        String message = "Vos listes sont les suivantes : ";
         for (int i = 0; i < listes.size(); i++) {
-            String message = String.valueOf(this.listes.get(i));
-            return message;
+            message += String.valueOf(this.listes.get(i));
         }
+        return message;
     }
 
     public void createList() throws SQLException {

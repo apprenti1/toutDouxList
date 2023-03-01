@@ -9,6 +9,7 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) throws SQLException {
 
+        Bdd bdd = new Bdd();
         Scanner sc = new Scanner(System.in);
 
         System.out.println("Bienvenue sur la ToutDouxList !");
@@ -27,12 +28,12 @@ public class Main {
             System.out.println("Entrez votre mdp : ");
             String mdp = sc.nextLine();
 
-            Bdd bdd = new Bdd();
+
             Utilisateur user = new Utilisateur(nom, prenom, email, mdp, bdd);
             if (user.insert()) {
                 System.out.println("Vous êtes maintenant inscrit !");
             } else {
-                System.out.println("Vous etes déjà inscrit.");
+                System.out.println("Problème");
             }
 
 
@@ -42,7 +43,7 @@ public class Main {
             System.out.println("Entrez votre mdp : ");
             String mdp = sc.nextLine();
 
-            Bdd bdd = new Bdd();
+
             Utilisateur user = new Utilisateur(email, mdp, bdd);
             if (user.connect()) {
                 System.out.println("Vous etes maintenant connecté");
@@ -63,6 +64,12 @@ public class Main {
                 Liste liste = new Liste(nom, description, bdd);
                 liste.createList();
                 System.out.println("Votre liste " + nom + " a été créée.");
+
+            } else if (choix == 2) {
+                System.out.println("Saisir l'id de liste à gérer : ");
+
+
+
             }
         }
     }

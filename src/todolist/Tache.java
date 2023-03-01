@@ -5,6 +5,7 @@ import java.sql.SQLException;
 
 public class Tache {
 
+
     private int id_tache;
     private String nom;
     private String description;
@@ -67,4 +68,15 @@ public class Tache {
         requetePrepare.setInt(2, this.id_tache);
         requetePrepare.executeUpdate();
     }
+
+    public int getId_tache() { return id_tache; }
+    public void setId_tache(int id_tache) { this.id_tache = id_tache; }
+    public String getNom() { return nom; }
+    public void setNom(String nom) { this.nom = nom; }
+    public String getDescription() { return description; }
+    public void setDescription(String description) { this.description = description; }
+    public boolean isEst_realise() { return est_realise; }
+    public void setEst_realise(boolean est_realise) { this.est_realise = est_realise; }
+    public Bdd getBdd() { return bdd; }
+    public void setBdd(Bdd bdd) { this.bdd = bdd; }
 }
