@@ -8,8 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Liste extends VerifFormat {
-
-    private ArrayList<Liste> listes = new ArrayList<Liste>();
+    
     private ArrayList<Tache>taches = new ArrayList<Tache>();
     private int id_liste;
     private String nom;
@@ -37,15 +36,7 @@ public class Liste extends VerifFormat {
         this.description = description;
         this.bdd = bdd;
         this.taches = new ArrayList<Tache>();
-        this.listes = new ArrayList<Liste>();
-    }
 
-    public String afficherListe() {
-        String message = "Vos listes sont les suivantes : ";
-        for (int i = 0; i < listes.size(); i++) {
-            message += String.valueOf(this.listes.get(i));
-        }
-        return message;
     }
 
     public void createList() throws SQLException {
