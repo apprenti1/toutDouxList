@@ -1,49 +1,73 @@
 package todolist;
 import java.sql.*;
-import java.util.ArrayList;
 import bdd.Bdd;
-import java.lang.Object;
 
 public class Type {
 
+    private int id_type;
     private String libelle;
-    private String codeCouleur;
+    private String code_couleur;
+    private Bdd bdd;
 
-    public Type(String libelle, String codeCouleur) {
-
+    public Type(int id_type, String libelle, String code_couleur, Bdd bdd) {
+        this.id_type = id_type;
         this.libelle = libelle;
-        this.codeCouleur = codeCouleur;
+        this.code_couleur = code_couleur;
+        this.bdd = bdd;
     }
 
-
-    public String getLibelle() {
-        return libelle;
-    }
-
-    public String getCodeCouleur() {
-        return codeCouleur;
-    }
-
-
-    public void setLibelle(String libelle) {
+    public Type(String libelle, String code_couleur, Bdd bdd) {
         this.libelle = libelle;
+        this.code_couleur = code_couleur;
+        this.bdd = bdd;
     }
 
-    public void setCodeCouleur(String codeCouleur) {
-        this.codeCouleur = codeCouleur;
+    private boolean verifStringFormat(String text) {
+        if ((text.indexOf('"') +
+                text.indexOf("'") +
+                text.indexOf('\n') +
+                text.indexOf('\r') +
+                text.indexOf(' ') +
+                text.indexOf('\t') +
+                text.indexOf('(') +
+                text.indexOf(')')) == -8) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    public void typeDeTache() {
-        System.out.println("Type de tâche pour de futur filtre: " + libelle);
-        System.out.println("Code couleur : " + codeCouleur);
+    public void createType() throws SQLException {
+        if (this.verifStringFormat(this.libelle) && this.verifStringFormat(this.code_couleur)){
+            PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("INSERT INTO type (libelle, code_couleur) VALUES (?,?)");
+            requetePrepare.setString(1, this.libelle);
+            requetePrepare.setString(2, this.code_couleur);
+            requetePrepare.executeUpdate();
+        }
     }
 
-    public void modifierType(String nouveauLibelle, String nouveauCodeCouleur) {
-        this.libelle = nouveauLibelle;
-        this.codeCouleur = nouveauCodeCouleur;
-
+    public void updateType() throws SQLException {
+        if (this.verifStringFormat(this.libelle) && this.verifStringFormat(this.code_couleur)){
+            PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("UPDATE type SET libelle = ?, code_couleur = ? WHERE id_type = ?");
+            requetePrepare.setString(1, this.libelle);
+            requetePrepare.setString(2, this.code_couleur);
+            requetePrepare.setInt(3, this.id_type);
+            requetePrepare.executeUpdate();
+        }
     }
 
+    public void deleteType() throws SQLException {
+        PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("DELETE FROM type WHERE id_type = ?");
+        requetePrepare.setInt(1, this.id_type);
+        requetePrepare.executeUpdate();
+    }
+
+    public int getId_type() { return id_type; }
+    public void setId_type(int id_type) { this.id_type = id_type; }
+    public String getLibelle() { return libelle; }
+    public void setLibelle(String libelle) { this.libelle = libelle; }
+    public String getCode_couleur() { return code_couleur; }
+    public void setCode_couleur(String code_couleur) { this.code_couleur = code_couleur; }
+    public Bdd getBdd() { return bdd; }
+    public void setBdd(Bdd bdd) { this.bdd = bdd; }
 }
-
-

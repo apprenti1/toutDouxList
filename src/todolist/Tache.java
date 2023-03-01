@@ -5,7 +5,6 @@ import java.sql.SQLException;
 
 public class Tache {
 
-
     private int id_tache;
     private String nom;
     private String description;
@@ -43,7 +42,7 @@ public class Tache {
 
     public void createTask() throws SQLException {
         if (this.verifStringFormat(this.nom) && this.verifStringFormat(this.description)) {
-            PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("INSERT INTO tache VALUES (?,?,?)");
+            PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("INSERT INTO tache (nom, description, est_realise) VALUES (?,?,?)");
             requetePrepare.setString(1, nom);
             requetePrepare.setString(2, description);
             requetePrepare.setBoolean(3, est_realise);
