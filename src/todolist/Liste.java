@@ -1,12 +1,13 @@
 package todolist;
 import bdd.Bdd;
+import bdd.VerifFormat;
 import oracle.jdbc.internal.XSCacheOutput;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Liste {
+public class Liste extends VerifFormat {
 
     private ArrayList<Liste> listes = new ArrayList<Liste>();
     private ArrayList<Tache>taches = new ArrayList<Tache>();

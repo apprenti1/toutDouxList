@@ -2,7 +2,6 @@ package application;
 import bdd.Bdd;
 import todolist.*;
 import utilisateur.Utilisateur;
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Scanner;
 

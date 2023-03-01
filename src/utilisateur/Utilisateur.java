@@ -1,12 +1,12 @@
 package utilisateur;
 import bdd.Bdd;
-
+import bdd.VerifFormat;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Utilisateur {
+public class Utilisateur extends VerifFormat {
     private int id_user;
     private String nom;
     private String prenom;

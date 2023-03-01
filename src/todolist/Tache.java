@@ -1,28 +1,33 @@
 package todolist;
 import bdd.Bdd;
+import bdd.VerifFormat;
+
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 
-public class Tache {
+public class Tache extends VerifFormat {
 
     private int id_tache;
     private String nom;
     private String description;
     private boolean est_realise;
     private Bdd bdd;
+    private Type type;
 
-    public Tache(int id_tache, String nom, String description, boolean est_realise, Bdd bdd) {
+    public Tache(int id_tache, String nom, String description, boolean est_realise, Bdd bdd, Type type) {
         this.id_tache = id_tache;
         this.nom = nom;
         this.description = description;
         this.est_realise = est_realise;
         this.bdd = bdd;
+        this.type = type;
     }
 
-    public Tache (String nom, String description, Bdd bdd) {
+    public Tache (String nom, String description, Bdd bdd, Type type) {
         this.nom = nom;
         this.description = description;
         this.bdd = bdd;
+        this.type = type;
     }
 
     private boolean verifStringFormat(String text) {
@@ -84,4 +89,6 @@ public class Tache {
     public void setEst_realise(boolean est_realise) { this.est_realise = est_realise; }
     public Bdd getBdd() { return bdd; }
     public void setBdd(Bdd bdd) { this.bdd = bdd; }
+    public Type getType() { return type; }
+    public void setType(Type type) { this.type = type; }
 }
