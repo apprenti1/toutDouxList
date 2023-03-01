@@ -20,6 +20,12 @@ public class Tache {
         this.bdd = bdd;
     }
 
+    public Tache (String nom, String description, Bdd bdd) {
+        this.nom = nom;
+        this.description = description;
+        this.bdd = bdd;
+    }
+
     private boolean verifStringFormat(String text) {
         if ((text.indexOf('"') +
                 text.indexOf("'") +
