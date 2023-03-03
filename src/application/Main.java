@@ -66,8 +66,29 @@ public class Main {
 
             } else if (choix == 2) {
                 System.out.println("Saisir l'id de liste à gérer : ");
+                int id_liste = sc.nextInt();
+                System.out.println("souhaitez-vous modifier ou supprimer une liste ?");
+                String rep_choix =sc.nextLine();
+                if (rep_choix=="modifier") {
+                    System.out.print("Saisir le nom");
+                    String nom = sc.nextLine();
+                    System.out.print("Saisir la description");
+                    String description = sc.nextLine();
+
+                    Liste liste = new Liste(id_liste,nom, description, bdd);
+                    liste.updateList();
+                    liste.setNom(nom);
+                    liste.setDescription(description);
+
+                    System.out.println(liste.getNom() + liste.getDescription());
+
+                }
+                if(rep_choix=="supprimer") {
+                    Liste liste = new Liste(id_liste,bdd);
+                    liste.deleteList();
 
 
+                }
 
             }
         }
