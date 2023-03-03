@@ -52,11 +52,13 @@ public class Liste extends VerifFormat {
             requetePrepare.setString(1, this.nom);
             requetePrepare.setString(2, this.description);
             requetePrepare.executeUpdate();
+
         }
     }
 
-    public void addtask(Tache taches) {
-        this.taches.add(taches);
+    public void addtask(Tache tache) throws SQLException {
+        tache.createTask(this.id_liste);
+        this.taches.add(tache);
     }
 
 
@@ -71,7 +73,7 @@ public class Liste extends VerifFormat {
     }
 
     public void deleteList() throws SQLException {
-        PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("DELETE FROM tache WHERE id_liste=?");
+        PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("DELETE FROM liste WHERE id_liste=?");
         requetePrepare.setInt(1, this.id_liste);
         requetePrepare.executeUpdate();
     }

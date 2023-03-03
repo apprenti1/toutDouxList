@@ -45,12 +45,13 @@ public class Tache extends VerifFormat {
         }
     }
 
-    public void createTask() throws SQLException {
+    public void createTask(int ref_liste) throws SQLException {
         if (this.verifStringFormat(this.nom) && this.verifStringFormat(this.description)) {
-            PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("INSERT INTO tache (nom, description, est_realise) VALUES (?,?,?)");
+            PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("INSERT INTO tache (nom, description, est_realise, ref_liste) VALUES (?,?,?,?)");
             requetePrepare.setString(1, nom);
             requetePrepare.setString(2, description);
             requetePrepare.setBoolean(3, est_realise);
+            requetePrepare.setInt(4, ref_liste);
             requetePrepare.executeUpdate();
         }
     }
