@@ -3,6 +3,7 @@ import bdd.Bdd;
 import bdd.VerifFormat;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -52,7 +53,10 @@ public class Liste extends VerifFormat {
             requetePrepare.setString(1, this.nom);
             requetePrepare.setString(2, this.description);
             requetePrepare.executeUpdate();
-
+            requetePrepare = this.bdd.getMaConnection().prepareStatement("SELECT LAST_INSERT_ID() FROM liste");
+            ResultSet res = requetePrepare.executeQuery();
+            res.next();
+            this.id_liste = res.getInt(1);
         }
     }
 
@@ -83,10 +87,6 @@ public class Liste extends VerifFormat {
         return id_liste;
     }
 
-    public void setId_liste(int id_liste) {
-        this.id_liste = id_liste;
-    }
-
     public String getNom() {
         return nom;
     }
@@ -101,14 +101,6 @@ public class Liste extends VerifFormat {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public Bdd getBdd() {
-        return bdd;
-    }
-
-    public void setBdd(Bdd bdd) {
-        this.bdd = bdd;
     }
 }
 

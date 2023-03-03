@@ -3,6 +3,7 @@ import bdd.Bdd;
 import bdd.VerifFormat;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class Tache extends VerifFormat {
@@ -53,6 +54,10 @@ public class Tache extends VerifFormat {
             requetePrepare.setBoolean(3, est_realise);
             requetePrepare.setInt(4, ref_liste);
             requetePrepare.executeUpdate();
+            requetePrepare = this.bdd.getMaConnection().prepareStatement("SELECT LAST_INSERT_ID() FROM tache");
+            ResultSet res = requetePrepare.executeQuery();
+            res.next();
+            this.id_tache = res.getInt(1);
         }
     }
 
