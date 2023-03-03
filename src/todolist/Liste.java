@@ -1,7 +1,6 @@
 package todolist;
 import bdd.Bdd;
 import bdd.VerifFormat;
-import oracle.jdbc.internal.XSCacheOutput;
 
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -38,6 +37,14 @@ public class Liste extends VerifFormat {
         this.taches = new ArrayList<Tache>();
 
     }
+    public Liste(int id_liste,String nom, String description, Bdd bdd) {
+        this.id_liste = id_liste;
+        this.nom = nom;
+        this.description = description;
+        this.bdd = bdd;
+        this.taches = new ArrayList<Tache>();
+
+    }
 
     public void createList() throws SQLException {
         if (this.verifStringFormat(this.nom) && this.verifStringFormat(this.description)) {
@@ -51,6 +58,7 @@ public class Liste extends VerifFormat {
     public void addtask(Tache taches) {
         this.taches.add(taches);
     }
+
 
     public void updateList() throws SQLException {
         if (this.verifStringFormat(this.nom) && this.verifStringFormat(this.description)) {
