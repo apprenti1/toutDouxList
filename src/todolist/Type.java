@@ -1,9 +1,8 @@
 package todolist;
 import java.sql.*;
 import bdd.Bdd;
-import bdd.VerifFormat;
 
-public class Type extends VerifFormat {
+public class Type {
 
     private int id_type;
     private String libelle;
