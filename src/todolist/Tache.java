@@ -1,12 +1,11 @@
 package todolist;
 import bdd.Bdd;
-import bdd.VerifFormat;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class Tache extends VerifFormat {
+public class Tache {
 
     private int id_tache;
     private String nom;
