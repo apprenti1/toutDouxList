@@ -1,19 +1,19 @@
 package todolist;
 import bdd.Bdd;
-import bdd.VerifFormat;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class Liste extends VerifFormat {
+public class Liste {
 
     private ArrayList<Tache> taches = new ArrayList<Tache>();
     private int id_liste;
     private String nom;
     private String description;
-    private Bdd bdd;
+    private Connection bdd;
 
     private boolean verifStringFormat(String text) {
         if ((text.indexOf('"') +
@@ -31,29 +31,30 @@ public class Liste extends VerifFormat {
     }
 
 
-    public Liste(String nom, String description, Bdd bdd) {
+    public Liste(String nom, String description, Connection bdd) {
         this.nom = nom;
         this.description = description;
         this.bdd = bdd;
         this.taches = new ArrayList<Tache>();
 
     }
-    public Liste(int id_liste,String nom, String description, Bdd bdd) {
+    public Liste(String nom, String description, int id_liste, Connection bdd) {
+        this.nom = nom;
+        this.description = description;
+        this.bdd = bdd;
+        this.taches = new ArrayList<Tache>();
         this.id_liste = id_liste;
-        this.nom = nom;
-        this.description = description;
-        this.bdd = bdd;
-        this.taches = new ArrayList<Tache>();
 
     }
+
 
     public void createList() throws SQLException {
         if (this.verifStringFormat(this.nom) && this.verifStringFormat(this.description)) {
-            PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("INSERT INTO liste(nom,description) VALUES (?,?)");
+            PreparedStatement requetePrepare = this.bdd.prepareStatement("INSERT INTO liste(nom,description) VALUES (?,?)");
             requetePrepare.setString(1, this.nom);
             requetePrepare.setString(2, this.description);
             requetePrepare.executeUpdate();
-            requetePrepare = this.bdd.getMaConnection().prepareStatement("SELECT LAST_INSERT_ID() FROM liste");
+            requetePrepare = this.bdd.prepareStatement("SELECT LAST_INSERT_ID() FROM liste");
             ResultSet res = requetePrepare.executeQuery();
             res.next();
             this.id_liste = res.getInt(1);
@@ -68,7 +69,7 @@ public class Liste extends VerifFormat {
 
     public void updateList() throws SQLException {
         if (this.verifStringFormat(this.nom) && this.verifStringFormat(this.description)) {
-            PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("UPDATE liste SET (nom = ?, description = ? WHERE id_liste = ?");
+            PreparedStatement requetePrepare = this.bdd.prepareStatement("UPDATE liste SET (nom = ?, description = ? WHERE id_liste = ?");
             requetePrepare.setString(1, this.nom);
             requetePrepare.setString(2, this.description);
             requetePrepare.setInt(3, this.id_liste);
@@ -77,7 +78,7 @@ public class Liste extends VerifFormat {
     }
 
     public void deleteList() throws SQLException {
-        PreparedStatement requetePrepare = this.bdd.getMaConnection().prepareStatement("DELETE FROM liste WHERE id_liste=?");
+        PreparedStatement requetePrepare = this.bdd.prepareStatement("DELETE FROM liste WHERE id_liste=?");
         requetePrepare.setInt(1, this.id_liste);
         requetePrepare.executeUpdate();
     }
