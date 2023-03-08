@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS `liste` (
   `id_liste` int(11) NOT NULL AUTO_INCREMENT,
   `nom` varchar(50) NOT NULL,
   `description` varchar(50) NOT NULL,
+   `ref_utilisateur` int(11) NOT NULL,
   PRIMARY KEY (`id_liste`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
@@ -128,9 +129,14 @@ ALTER TABLE `participe`
 -- Contraintes pour la table `tache`
 --
 ALTER TABLE `tache`
-  ADD CONSTRAINT `fk_tache_liste` FOREIGN KEY (`ref_liste`) REFERENCES `liste` (`id_liste`),
+    ADD CONSTRAINT `fk_tache_liste` FOREIGN KEY (`ref_liste`) REFERENCES `liste` (`id_liste`),
   ADD CONSTRAINT `fk_tache_type` FOREIGN KEY (`ref_type`) REFERENCES `type` (`id_type`);
 COMMIT;
+
+ALTER TABLE `liste`
+    ADD CONSTRAINT `fk_liste_utilisateur` FOREIGN KEY (`ref_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`);
+COMMIT;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
