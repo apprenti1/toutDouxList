@@ -1,12 +1,9 @@
 package application;
-
-
 import java.io.FileDescriptor;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
-
 import betterConsoleScanner.ConsoleScanner;
 import utilisateur.Utilisateur;
 import bdd.Bdd;

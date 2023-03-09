@@ -51,7 +51,7 @@ public class Utilisateur {
                         this.prenom = rs.getString("prenom");
                         this.oldemail = this.email;
                         this.connected = true;
-                        req = this.bdd.prepareStatement("SELECT nom,description,id_liste from liste where id_utilisateur = ? ;");
+                        req = this.bdd.prepareStatement("SELECT nom,description,id_liste from liste where ref_utilisateur = ? ;");
                         req.setInt(1, this.id_user);
                         rs = req.executeQuery();
                         this.listes = new ArrayList<Liste>();
