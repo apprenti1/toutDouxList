@@ -46,12 +46,16 @@ public class ConsoleScanner {
             }
         }
     }
-    public int choixInt(int nb1, int nb2, int defaut, String message){
-        int choix = this.nextInt(message);
-        if (choix>=nb1 && choix<=nb2){
-            return choix;
-        }
-        else{
+    public int choixInt(int nb1, int nb2, int defaut){
+        String choixStr = this.nextLine();
+        try {
+            int choix = Integer.parseInt(choixStr);
+            if (choix >= nb1 && choix <= nb2) {
+                return choix;
+            } else {
+                return defaut;
+            }
+        }catch (NumberFormatException e){
             return defaut;
         }
     }
@@ -123,3 +127,4 @@ public class ConsoleScanner {
         } else{ return false;}}
 
 }
+

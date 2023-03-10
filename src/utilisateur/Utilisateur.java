@@ -1,5 +1,5 @@
 package utilisateur;
-import bdd.Bdd;
+import customData.CustomData;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -18,6 +18,8 @@ public class Utilisateur {
     private String mdp;
     private String oldemail;
     private Connection bdd;
+
+
     private ArrayList<Liste> listes;
 
 
@@ -56,7 +58,7 @@ public class Utilisateur {
                         rs = req.executeQuery();
                         this.listes = new ArrayList<Liste>();
                         while (rs.next()){
-                            this.listes.add(new Liste(rs.getString("nom"), rs.getString("description"), rs.getInt("id_liste"), this.bdd));
+                            this.listes.add(new Liste(rs.getString("nom"), rs.getString("description"), rs.getInt("id_liste"), this.id_user, this.bdd));
                         }
                         return true;
                     }else{return false;}
@@ -145,5 +147,7 @@ public class Utilisateur {
     public String getMdp() {return mdp;}
     public void setMdp(String mdp) {this.mdp = mdp;}
     public boolean isConnected() {return connected;}
+    public ArrayList<Liste> getListes() {return listes;}
+
 }
 
