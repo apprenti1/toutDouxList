@@ -9,11 +9,19 @@ public class Type {
     private String code_couleur;
     private Connection bdd;
 
-    public Type(int id_type, String libelle, String code_couleur, Connection bdd) {
+    public Type(int id_type, Connection bdd) {
         this.id_type = id_type;
-        this.libelle = libelle;
-        this.code_couleur = code_couleur;
         this.bdd = bdd;
+        try {
+            PreparedStatement req = bdd.prepareStatement("SELECT libelle,code_couleur from type where id_type = ?");
+            req.setInt(1,id_type);
+            ResultSet res = req.executeQuery();
+            res.next();
+            this.libelle = res.getString("libelle");
+            this.code_couleur = res.getString("code_couleur");
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public Type(String libelle, String code_couleur, Connection bdd) {

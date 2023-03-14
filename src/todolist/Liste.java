@@ -7,7 +7,7 @@ import java.util.ArrayList;
 
 public class Liste {
 
-    private ArrayList<Tache> taches = new ArrayList<Tache>();
+    private ArrayList<Tache> taches;
     private int id_liste;
     private int ref_utilisateur;
     private String nom;
@@ -41,9 +41,19 @@ public class Liste {
         this.nom = nom;
         this.description = description;
         this.bdd = bdd;
-        this.taches = new ArrayList<Tache>();
         this.id_liste = id_liste;
         this.ref_utilisateur = ref_utilisateur;
+        this.taches = new ArrayList<Tache>();
+        try {
+            PreparedStatement req = bdd.prepareStatement("Select * from tache where ref_liste = ?");
+            req.setInt(1,this.id_liste);
+            ResultSet res = req.executeQuery();
+            while (res.next()){
+                this.taches.add(new Tache(res.getInt("id_tache"), res.getString("nom"), res.getString("description"), res.getBoolean("est_realise"), this.bdd, new Type(res.getInt("ref_type"), this.bdd)));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -89,25 +99,12 @@ public class Liste {
     }
 
 
-    public int getId_liste() {
-        return id_liste;
-    }
-
-    public String getNom() {
-        return nom;
-    }
-
-    public void setNom(String nom) {
-        this.nom = nom;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
+    public int getId_liste() {return id_liste;}
+    public String getNom() {return nom;}
+    public void setNom(String nom) {this.nom = nom;}
+    public String getDescription() {return description;}
+    public void setDescription(String description) {this.description = description;}
+    public ArrayList<Tache> getTaches() {return taches;}
 }
 
 

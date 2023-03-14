@@ -11,7 +11,7 @@ public class CustomData {
 
     public CustomData() {
 
-        this.colors = new String[]{"232;255;109","43;177;161","225;104;82","66;216;217"};
+        this.colors = new String[]{"232;255;109","43;177;161","225;104;82","66;216;217","25;186;85"};
 
         try {
             this.maConnection = DriverManager.getConnection("jdbc:mysql://localhost:3306/toutdouxlist","root","");

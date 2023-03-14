@@ -58,7 +58,7 @@ public class Utilisateur {
                         rs = req.executeQuery();
                         this.listes = new ArrayList<Liste>();
                         while (rs.next()){
-                            this.listes.add(new Liste(rs.getString("nom"), rs.getString("description"), rs.getInt("id_liste"), this.id_user, this.bdd));
+                            this.listes.add(new Liste(rs.getString("nom"), rs.getString("description"), this.id_user, rs.getInt("id_liste"), this.bdd));
                         }
                         return true;
                     }else{return false;}

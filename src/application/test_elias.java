@@ -4,7 +4,6 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
-import java.util.ArrayList;
 
 import betterConsoleScanner.ConsoleScanner;
 import utilisateur.Utilisateur;
@@ -23,15 +22,13 @@ public class test_elias {
 
 
         boolean quit = false;
-        System.out.print("\t"+cdt.color(0)+"\u001B[1m$--------------Bienvenue dans ToutDouxList !!!-------------$\u001B[0m");
         while (!quit) {
             try {
                 System.setOut(new PrintStream(new FileOutputStream(FileDescriptor.out), true, "UTF-8"));
             }catch(UnsupportedEncodingException e){
                 throw new InternalError("\t"+cdt.color(0)+"\u001B[1m$-------------------UTF-8 not availiable-------------------$\u001B[0m");
             }
-
-            System.out.print(""+cdt.color(1)+"\n\t\tMerci de bien vouloir :\n\t\t- (1) \u001B[4mse connecter\u001B[0m"+cdt.color(1)+"\n\t\t- (2) s'inscrire\n\t\t\t"+cdt.color(3)+"\u001B[1m>>\u001B[0m\t");
+            System.out.print("\n\n\n\t"+cdt.color(0)+"\u001B[1m$--------------Bienvenue dans ToutDouxList !!!-------------$\u001B[0m"+cdt.color(1)+"\n\t\tMerci de bien vouloir :\n\t\t- (1) \u001B[4mse connecter\u001B[0m"+cdt.color(1)+"\n\t\t- (2) s'inscrire\n\t\t\t"+cdt.color(3)+"\u001B[1m>>\u001B[0m\t");
             if (sc.choixInt(1, 2, 1) == 1) {
                 System.out.println("\t"+cdt.color(0)+"\u001B[1m$------------------------Connection------------------------$\u001B[0m");
                 String[] form = sc.form(cdt.color(1)+"\n\t\t", new String[]{"E-mail", "Mot de passe"}, " :\n\t\t\t"+cdt.color(3)+"\u001B[1m>>\u001B[0m\t", "\t"+cdt.color(2)+"\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t"+cdt.color(3)+"\u001B[1m>>\u001B[0m\t");
@@ -39,19 +36,35 @@ public class test_elias {
                 if (!user.connect()) {
                     System.out.println("\t"+cdt.color(2)+"\u001B[1m$-----------E-mail ou Mot de passe incorrect !!------------$\u001B[0m");
                 } else {
-                    while (user.getId_user() != 0) {
-
+                    while (user != null && user.getId_user() != 0) {
                         System.out.println("\t"+cdt.color(0)+"\u001B[1m$---------------------------Home---------------------------$\u001B[0m");
 
                         if (user.getListes().size()!=0) {
-                            ShowLists(user);
+                            showLists(user);
                         } else {
                             System.out.println(cdt.color(0)+"\t\tAucune liste n'est actuellement créé !");
-                            CreateListe(user.getId_user());
+                            createListe(user.getId_user());
                             user.connect();
                         }
-                        System.out.println(cdt.color(1)+"\n\t\tQue souhaitez vous faire :\n\t\t- (1) créer une liste\n\t\t- (2) gérer une liste\n\t\t- (3) voir mon prophil\n\t\t- (4) se déconnecter\n\t\t- (5) quitter");
-                        sc.nextLine();
+                        System.out.print(cdt.color(1)+"\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4mcréer une liste\u001B[0m"+cdt.color(1)+"\n\t\t- (2) gérer une liste\n\t\t- (3) voir mon prophil\n\t\t- (4) se déconnecter\n\t\t- (5) quitter"+cdt.color(3)+"\n\t\t\t\u001B[1m>>\u001B[0m\t");
+                        int choix = sc.choixInt(1,5,1);
+                        switch (choix){
+                            case 1:
+                                createListe(user.getId_user());
+                                break;
+                            case 2:
+                                manageList(user);
+                                break;
+                            case 3:
+                                break;
+                            case 4:
+                                user = null;
+                                break;
+                            case 5:
+                                user = null;
+                                quit = true;
+                                break;
+                        }
                     }
                 }
             }
@@ -68,7 +81,7 @@ public class test_elias {
             }
         }
     }
-    private static Liste CreateListe(int userID){
+    private static Liste createListe(int userID){
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         Connection bdd = cdt.getMaConnection();
@@ -76,7 +89,7 @@ public class test_elias {
         String[] form = sc.form(cdt.color(1)+"\n\t\t",new String[]{"Nom","Description"}," :\n\t\t\t"+cdt.color(3)+"\u001B[1m>>\u001B[0m\t", "\t"+cdt.color(2)+"\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t"+cdt.color(3)+"\u001B[1m>>\u001B[0m\t");
         return new Liste(form[0], form[1], userID, bdd);
     }
-    private static void ShowLists(Utilisateur user){
+    private static void showLists(Utilisateur user){
         CustomData cdt = new CustomData();
         System.out.println(cdt.color(1)+"\t\tVos listes :");
         int increment = 1;
@@ -84,5 +97,24 @@ public class test_elias {
             System.out.println(cdt.color(3) + "\t\t|" + increment + "|\t\t    " + liste.getNom()+"    \t|\t    " + liste.getDescription() + "    \t|");
             increment++;
         }
+    }
+    private static void showList(Liste liste){
+        CustomData cdt = new CustomData();
+        System.out.println("\n\t\t\u001B[1m"+cdt.color(4)+"$------"+liste.getNom()+"------$"+cdt.color(3)+"\n\t\t\t"+liste.getDescription());
+        int increment = 1;
+        for (Tache tache:liste.getTaches()) {
+            System.out.println(cdt.color(1)+"\u001B[1m\t\t["+(tache.isRealise()?"X":" ")+"]|"+increment+++"|\u001B[38;2;"+tache.getType().getCode_couleur()+"m██"+cdt.color(1)+"|  \t"+tache.getNom()+"\t  |  \t"+tache.getDescription()+"\t  |");
+        }
+    }
+    private static void manageList(Utilisateur user){
+        CustomData cdt = new CustomData();
+        ConsoleScanner sc = new ConsoleScanner();
+        System.out.println("\t"+cdt.color(0)+"\u001B[1m$---------------------Gestion de listes--------------------$\u001B[0m");
+        showLists(user);
+        System.out.print(cdt.color(1)+"\n\t\tQuelle liste souhaitez vous gérer :\n\t\t\t"+cdt.color(3)+"\u001B[1m>>\u001B[0m\t");
+        Liste liste = user.getListes().get(sc.choixInt(1,user.getListes().size(),"\t"+cdt.color(2)+"\u001B[1m$------------------Liste innexistante !!!------------------$\u001B[0m")-1);
+        showList(liste);
+
+
     }
 }
