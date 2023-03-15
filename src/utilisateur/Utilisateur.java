@@ -20,6 +20,9 @@ public class Utilisateur {
     private Connection bdd;
 
 
+    private boolean removed;
+
+
     private ArrayList<Liste> listes;
 
 
@@ -64,12 +67,12 @@ public class Utilisateur {
                     }else{return false;}
                 }else{return false;}
             } catch (SQLException e) {
-                System.out.println("SQL Error : "+e.getMessage()+"\nCode : "+e.getErrorCode()+"State : "+e.getSQLState());
+                System.out.println("SQL Error : "+e.getMessage()+"\nCode : "+e.getErrorCode()+"  |  State : "+e.getSQLState());
                 return false;
             }
     }
 
-    public boolean update() throws SQLException {
+    public boolean update(){
         if (this.connected && this.verifStringFormat(this.nom)&&this.verifStringFormat(this.prenom)&&this.verifStringFormat(this.email)&&this.verifStringFormat(this.mdp)){
             try{
                 if (this.email != this.oldemail && this.verifExistEmail()){
@@ -148,6 +151,18 @@ public class Utilisateur {
     public void setMdp(String mdp) {this.mdp = mdp;}
     public boolean isConnected() {return connected;}
     public ArrayList<Liste> getListes() {return listes;}
+    public boolean isRemoved() {return removed;}
+    public void remove() {
+        this.removed = true;
+        PreparedStatement req = null;
+        try {
+            req = this.bdd.prepareStatement("DELETE FROM utilisateur WHERE id_utilisateur = ?");
+            req.setInt(1,this.id_user);
+            req.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 }
 
