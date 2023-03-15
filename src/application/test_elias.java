@@ -50,6 +50,7 @@ public class test_elias {
                             switch (sc.choixInt(1,5,1)){
                                 case 1:
                                     createListe(user.getId_user());
+                                    user.connect();
                                     break;
                                 case 2:
                                     manageList(user);
@@ -115,6 +116,8 @@ public class test_elias {
         System.out.print(cdt.color(1)+"\n\t\tQuelle liste souhaitez vous gérer :\n\t\t\t"+cdt.color(3)+"\u001B[1m>>\u001B[0m\t");
         Liste liste = user.getListes().get(sc.choixInt(1,user.getListes().size(),"\t"+cdt.color(2)+"\u001B[1m$------------------Liste innexistante !!!------------------$\u001B[0m")-1);
         showList(liste);
+        System.out.print(cdt.color(1)+"\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4mrevenir à l'accoueil\u001B[0m"+cdt.color(1)+"\n\t\t- (2) ajouter une liste\n\t\t- (3) modifier le titre\n\t\t- (4) modifier la description\n\t\t- (5) gérer une tache\n\t\t- (6) modifier tout\n\t\t- (7) supprimer le compte"+cdt.color(3)+"\n\t\t\t\u001B[1m>>\u001B[0m\t");
+        sc.nextLine();
     }
     private static void showProfil(Utilisateur user){
         CustomData cdt = new CustomData();
