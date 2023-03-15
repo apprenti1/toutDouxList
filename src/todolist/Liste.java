@@ -15,6 +15,10 @@ public class Liste extends VerifFormat {
     private String description;
     private Bdd bdd;
 
+    public Liste(int id_liste, Bdd bdd) {
+        super();
+    }
+
     private boolean verifStringFormat(String text) {
         if ((text.indexOf('"') +
                 text.indexOf("'") +
