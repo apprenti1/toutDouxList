@@ -115,9 +115,29 @@ public class test_elias {
         showLists(user);
         System.out.print(cdt.color(1)+"\n\t\tQuelle liste souhaitez vous gérer :\n\t\t\t"+cdt.color(3)+"\u001B[1m>>\u001B[0m\t");
         Liste liste = user.getListes().get(sc.choixInt(1,user.getListes().size(),"\t"+cdt.color(2)+"\u001B[1m$------------------Liste innexistante !!!------------------$\u001B[0m")-1);
-        showList(liste);
-        System.out.print(cdt.color(1)+"\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4mrevenir à l'accoueil\u001B[0m"+cdt.color(1)+"\n\t\t- (2) ajouter une liste\n\t\t- (3) modifier le titre\n\t\t- (4) modifier la description\n\t\t- (5) gérer une tache\n\t\t- (6) modifier tout\n\t\t- (7) supprimer le compte"+cdt.color(3)+"\n\t\t\t\u001B[1m>>\u001B[0m\t");
-        sc.nextLine();
+        boolean quit = false;
+        while (!quit) {
+            showList(liste);
+            System.out.print(cdt.color(1) + "\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4mrevenir à l'accueil\u001B[0m" + cdt.color(1) + "\n\t\t- (2) créer une tâche\n\t\t- (3) gérer une tache\n\t\t- (4) modifier le titre\n\t\t- (5) modifier la description\n\t\t- (6) modifier tout\n\t\t- (7) supprimer la liste" + cdt.color(3) + "\n\t\t\t\u001B[1m>>\u001B[0m\t");
+            switch (sc.choixInt(1, 7, 1)) {
+                case 1:
+                    quit = true;
+                    break;
+                case 2:
+
+                    break;
+                case 3:
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    break;
+                case 6:
+                    break;
+                case 7:
+                    break;
+            }
+        }
     }
     private static void showProfil(Utilisateur user){
         CustomData cdt = new CustomData();
@@ -165,4 +185,31 @@ public class test_elias {
             user.update();
         }
     }
-}
+    private static void createTache(int userID){
+        CustomData cdt = new CustomData();
+        ConsoleScanner sc = new ConsoleScanner();
+        Connection bdd = cdt.getMaConnection();
+        System.out.println("\t"+cdt.color(0)+"\u001B[1m$--------------------Crée ta tache !!!---------------------$\u001B[0m");
+        String[] form = sc.form(cdt.color(1)+"\n\t\t",new String[]{"Titre","Description"}," :\n\t\t\t"+cdt.color(3)+"\u001B[1m>>\u001B[0m\t", "\t"+cdt.color(2)+"\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t"+cdt.color(3)+"\u001B[1m>>\u001B[0m\t");
+
+
+        new Liste(form[0], form[1], userID, bdd).createList();
+    }
+    public static void manageTask(Liste liste) {
+        CustomData cdt = new CustomData();
+        ConsoleScanner sc = new ConsoleScanner();
+        System.out.println("\t" + cdt.color(0) + "\u001B[1m$--------------------Gerer une tache---------------------$\u001B[0m");
+    showList(liste);
+        System.out.print(cdt.color(1)+"\n\t\tQuelle tache souhaitez vous gérer :\n\t\t\t"+cdt.color(3)+"\u001B[1m>>\u001B[0m\t");
+        Tache tache = liste.getTaches().get(sc.choixInt(1,liste.getTaches().size(),"\t"+cdt.color(2)+"\u001B[1m$-------------------Tâche innexistante !!!-------------------$\u001B[0m")-1);
+
+    }
+
+public static void modifTitre(Utilisateur user) {
+    CustomData cdt = new CustomData();
+    ConsoleScanner sc = new ConsoleScanner();
+    showLists(user);
+    System.out.print(cdt.color(1) + "\n\t\tQuelle titre souhaitez vous modifier :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+    Liste liste = user.getListes().get(sc.choixInt(1, user.getListes().size(), "\t" + cdt.color(2) + "\u001B[1m$-------------------tache innexistante !!!-------------------$\u001B[0m") - 1);
+    liste.updateList();
+    }
