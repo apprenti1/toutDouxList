@@ -4,7 +4,6 @@ import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.sql.Connection;
-
 import betterConsoleScanner.ConsoleScanner;
 import utilisateur.Utilisateur;
 import customData.CustomData;
@@ -213,3 +212,25 @@ public static void modifTitre(Utilisateur user) {
     Liste liste = user.getListes().get(sc.choixInt(1, user.getListes().size(), "\t" + cdt.color(2) + "\u001B[1m$-------------------tache innexistante !!!-------------------$\u001B[0m") - 1);
     liste.updateList();
     }
+
+public static void modifDescription(Utilisateur user) {
+    CustomData cdt = new CustomData();
+    ConsoleScanner sc = new ConsoleScanner();
+    showLists(user);
+    System.out.print(cdt.color(1) + "\n\t\tQuelle descritption souhaitez vous modifier :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+    Liste liste = user.getListes().get(sc.choixInt(1, user.getListes().size(), "\t" + cdt.color(2) + "\u001B[1m$-------------------Liste innexistante !!!-------------------$\u001B[0m") - 1);
+    liste.updateList();
+    }
+
+    public static void modifAll(Utilisateur user){
+        CustomData cdt = new CustomData();
+        ConsoleScanner sc = new ConsoleScanner();
+        showLists(user);
+        System.out.print(cdt.color(1) + "\n\t\tQuelle liste souhaitez vous modifier :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+        Liste liste = user.getListes().get(sc.choixInt(1, user.getListes().size(), "\t" + cdt.color(2) + "\u001B[1m$-------------------Liste innexistante !!!-------------------$\u001B[0m") - 1);
+        liste.updateList();
+    }
+
+}
+
+
