@@ -21,9 +21,7 @@ public class Utilisateur {
     private Connection bdd;
     private boolean removed;
     private ArrayList<Liste> listes;
-    private ArrayList<Type> types;
-    private boolean connected = false;
-
+    private ArrayList<Type> types;   private boolean connected = false;
     public Utilisateur (String email, String mdp, Connection bdd){
         this.email = email;
         this.mdp = mdp;
@@ -67,12 +65,13 @@ public class Utilisateur {
                         while (rs.next()){
                             this.listes.add(new Liste(rs.getString("nom"), rs.getString("description"), this.id_user, rs.getInt("id_liste"), this.bdd));
                         }
-                        req = this.bdd.prepareStatement("SELECT id_type from type where ref_utilisateur = ? ;");
+                        System.out.println(this.id_user);
+                        req = this.bdd.prepareStatement("SELECT id_type from type where ref_utilisateur = ? ");
                         req.setInt(1, this.id_user);
                         rs = req.executeQuery();
                         this.types = new ArrayList<Type>();
                         while (rs.next()){
-                            this.types.add(new Type(rs.getInt("id_utilisateur"), this.bdd));
+                            this.types.add(new Type(rs.getInt("id_type"), this.bdd));
                         }
                         return true;
                     }else{return false;}

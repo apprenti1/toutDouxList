@@ -127,7 +127,7 @@ public class test_elias {
                     quit = true;
                     break;
                 case 2:
-                    selectTache(liste, "\t" + cdt.color(2) + "\u001B[1m$-------------------Tâche innexistante !!!-------------------$\u001B[0m").interract();
+                    selectTache(liste).interract();
                     break;
                 case 3:
                     createTache(liste, user);
@@ -206,12 +206,12 @@ public class test_elias {
         }
     }
 
-    private static Tache selectTache(Liste liste, String text) {
+    private static Tache selectTache(Liste liste) {
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         showList(liste);
-        System.out.print(text);
-        return liste.getTaches().get(sc.choixInt(1, liste.getTaches().size(), "\t" + cdt.color(2) + "\u001B[1m$-------------------Tâche innexistante !!!-------------------$\u001B[0m") - 1);
+        System.out.print(cdt.color(1)+"\n\t\tVeuillez sélectionner une tâche :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+        return liste.getTaches().get(sc.choixInt(1, liste.getTaches().size(), "\t" + cdt.color(2) + "\u001B[1m$-------------------Tâche innexistante !!!-------------------$\u001B[0m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t") - 1);
     }
 
     private static void showTypes(Utilisateur user) {
@@ -228,8 +228,7 @@ public class test_elias {
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         showTypes(user);
-        System.out.print(text);
-        return user.getTypes().get(sc.choixInt(1, user.getTypes().size(), "\t" + cdt.color(2) + "\u001B[1m$-------------------Tâche innexistante !!!-------------------$\u001B[0m") - 1);
+        return user.getTypes().get(sc.choixInt(1, user.getTypes().size(), text) - 1);
     }
 
     private static Type createType(Utilisateur user) {
@@ -249,11 +248,16 @@ public class test_elias {
         Connection bdd = cdt.getMaConnection();
         System.out.println("\t" + cdt.color(0) + "\u001B[1m$--------------------Crée ta tache !!!---------------------$\u001B[0m");
         String[] form = sc.form(cdt.color(1) + "\n\t\t", new String[]{"Titre", "Description"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
-        System.out.print(cdt.color(1) + "\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4sélectionner un type\u001B[0m" + cdt.color(1) + "\n\t\t- (2) créer un type" + cdt.color(3) + "\n\t\t\t\u001B[1m>>\u001B[0m\t");
-        Tache tache;
-        if (sc.choixInt(1, 2, 1) == 1) {
-            tache = new Tache(form[0], form[1], bdd, selectType(user, "\t" + cdt.color(2) + "\u001B[1m$-------------------Tâche innexistante !!!-------------------$\u001B[0m"));
-        } else {
+            Tache tache;
+        if (user.getTypes().size()>0) {
+            System.out.print(cdt.color(1) + "\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4msélectionner un type\u001B[0m" + cdt.color(1) + "\n\t\t- (2) créer un type" + cdt.color(3) + "\n\t\t\t\u001B[1m>>\u001B[0m\t");
+            if (sc.choixInt(1, 2, 1) == 1) {
+                tache = new Tache(form[0], form[1], bdd, selectType(user, "\t" + cdt.color(2) + "\u001B[1m$-------------------Tâche innexistante !!!-------------------$\u001B[0m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t"));
+            } else {
+                tache = new Tache(form[0], form[1], bdd, createType(user));
+            }
+        }
+        else {
             tache = new Tache(form[0], form[1], bdd, createType(user));
         }
         tache.createTask(liste.getId_liste());
@@ -266,7 +270,7 @@ public class test_elias {
         System.out.println("\t" + cdt.color(0) + "\u001B[1m$--------------------Gerer une tache---------------------$\u001B[0m");
         showList(liste);
         System.out.print(cdt.color(1) + "\n\t\tQuelle tache souhaitez vous gérer :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
-        Tache tache = liste.getTaches().get(sc.choixInt(1, liste.getTaches().size(), "\t" + cdt.color(2) + "\u001B[1m$-------------------Tâche innexistante !!!-------------------$\u001B[0m") - 1);
+        Tache tache = liste.getTaches().get(sc.choixInt(1, liste.getTaches().size(), "\t" + cdt.color(2) + "\u001B[1m$-------------------Tâche innexistante !!!-------------------$\u001B[0m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t") - 1);
         boolean quit = false;
         while (!quit) {
             System.out.println(cdt.color(1) + "\u001B[1m\t\t[" + (tache.isRealise() ? "X" : " ") + "]|\u001B[38;2;" + tache.getType().getCode_couleur() + "m██" + cdt.color(1) + "|  \t" + tache.getNom() + "\t  |  \t" + tache.getDescription() + "\t  |  \t" + tache.getType().getLibelle() + "\t  |");
@@ -286,7 +290,7 @@ public class test_elias {
                 case 4:
                     System.out.print(cdt.color(1) + "\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4sélectionner un type\u001B[0m" + cdt.color(1) + "\n\t\t- (2) créer un type" + cdt.color(3) + "\n\t\t\t\u001B[1m>>\u001B[0m\t");
                     if (sc.choixInt(1, 2, 1) == 1) {
-                        tache.setType(selectType(user, "\t" + cdt.color(2) + "\u001B[1m$-------------------Tâche innexistante !!!-------------------$\u001B[0m"));
+                        tache.setType(selectType(user, "\t" + cdt.color(2) + "\u001B[1m$-------------------Tâche innexistante !!!-------------------$\u001B[0m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t"));
                     } else {
                         tache.setType(createType(user));
                     }

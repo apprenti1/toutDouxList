@@ -49,11 +49,12 @@ public class Tache {
         if (this.verifStringFormat(this.nom) && this.verifStringFormat(this.description)) {
             PreparedStatement requetePrepare = null;
             try {
-                requetePrepare = this.bdd.prepareStatement("INSERT INTO tache (nom, description, est_realise, ref_liste) VALUES (?,?,?,?)");
+                requetePrepare = this.bdd.prepareStatement("INSERT INTO tache (nom, description, est_realise, ref_liste, ref_type) VALUES (?,?,?,?,?)");
                 requetePrepare.setString(1, nom);
                 requetePrepare.setString(2, description);
                 requetePrepare.setBoolean(3, realise);
                 requetePrepare.setInt(4, ref_liste);
+                requetePrepare.setInt(5, type.getId_type());
                 requetePrepare.executeUpdate();
                 requetePrepare = this.bdd.prepareStatement("SELECT LAST_INSERT_ID() FROM tache");
                 ResultSet res = requetePrepare.executeQuery();
