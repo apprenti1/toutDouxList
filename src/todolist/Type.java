@@ -5,6 +5,7 @@ import customData.CustomData;
 public class Type {
 
     private int id_type;
+    private int ref_utilisateur;
     private String libelle;
     private String code_couleur;
     private Connection bdd;
@@ -24,10 +25,11 @@ public class Type {
         }
     }
 
-    public Type(String libelle, String code_couleur, Connection bdd) {
+    public Type(String libelle, String code_couleur, int id_user, Connection bdd) {
         this.libelle = libelle;
         this.code_couleur = code_couleur;
         this.bdd = bdd;
+        this.ref_utilisateur = id_user;
     }
 
     private boolean verifStringFormat(String text) {
@@ -45,12 +47,21 @@ public class Type {
         }
     }
 
-    public void createType() throws SQLException {
+    public void createType(){
         if (this.verifStringFormat(this.libelle) && this.verifStringFormat(this.code_couleur)){
-            PreparedStatement requetePrepare = this.bdd.prepareStatement("INSERT INTO type (libelle, code_couleur) VALUES (?,?)");
-            requetePrepare.setString(1, this.libelle);
-            requetePrepare.setString(2, this.code_couleur);
-            requetePrepare.executeUpdate();
+            try {
+                PreparedStatement requetePrepare = this.bdd.prepareStatement("INSERT INTO type (libelle, code_couleur, ref_utilisateur) VALUES (?,?,?)");
+                requetePrepare.setString(1, this.libelle);
+                requetePrepare.setString(2, this.code_couleur);
+                requetePrepare.setInt(3, this.ref_utilisateur);
+                requetePrepare.executeUpdate();
+                requetePrepare = this.bdd.prepareStatement("SELECT LAST_INSERT_ID() FROM type");
+                ResultSet res = requetePrepare.executeQuery();
+                res.next();
+                this.id_type = res.getInt(1);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 

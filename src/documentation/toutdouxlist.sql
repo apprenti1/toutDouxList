@@ -88,7 +88,9 @@ CREATE TABLE IF NOT EXISTS `type` (
   `id_type` int(11) NOT NULL AUTO_INCREMENT,
   `libelle` varchar(50) NOT NULL,
   `code_couleur` varchar(50) NOT NULL,
-  PRIMARY KEY (`id_type`)
+  `ref_utilisateur` int(11) NOT NULL,
+    PRIMARY KEY (`id_type`)
+    KEY `fk_type_utilisateur` (`ref_utilisateur`),
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -135,6 +137,8 @@ COMMIT;
 
 ALTER TABLE `liste`
     ADD CONSTRAINT `fk_liste_utilisateur` FOREIGN KEY (`ref_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`);
+ALTER TABLE `type`
+    ADD CONSTRAINT `fk_type_utilisateur` FOREIGN KEY (`ref_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`);
 COMMIT;
 
 

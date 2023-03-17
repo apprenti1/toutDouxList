@@ -76,26 +76,36 @@ public class Liste {
         }
     }
 
-    public void addtask(Tache tache) throws SQLException {
+    public void addtask(Tache tache){
         tache.createTask(this.id_liste);
         this.taches.add(tache);
     }
 
 
-    public void updateList() throws SQLException {
+    public void updateList(){
         if (this.verifStringFormat(this.nom) && this.verifStringFormat(this.description)) {
-            PreparedStatement requetePrepare = this.bdd.prepareStatement("UPDATE liste SET (nom = ?, description = ? WHERE id_liste = ?");
-            requetePrepare.setString(1, this.nom);
-            requetePrepare.setString(2, this.description);
-            requetePrepare.setInt(3, this.id_liste);
-            requetePrepare.executeUpdate();
+            PreparedStatement requetePrepare = null;
+            try {
+                requetePrepare = this.bdd.prepareStatement("UPDATE liste SET (nom = ?, description = ? WHERE id_liste = ?");
+                requetePrepare.setString(1, this.nom);
+                requetePrepare.setString(2, this.description);
+                requetePrepare.setInt(3, this.id_liste);
+                requetePrepare.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    public void deleteList() throws SQLException {
-        PreparedStatement requetePrepare = this.bdd.prepareStatement("DELETE FROM liste WHERE id_liste=?");
+    public void deleteList(){
+        PreparedStatement requetePrepare = null;
+        try {
+            requetePrepare = this.bdd.prepareStatement("DELETE FROM liste WHERE id_liste=?");
         requetePrepare.setInt(1, this.id_liste);
         requetePrepare.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 

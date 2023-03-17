@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import todolist.Liste;
+import todolist.Type;
 
 public class Utilisateur {
 
@@ -18,14 +19,9 @@ public class Utilisateur {
     private String mdp;
     private String oldemail;
     private Connection bdd;
-
-
     private boolean removed;
-
-
     private ArrayList<Liste> listes;
-
-
+    private ArrayList<Type> types;
     private boolean connected = false;
 
     public Utilisateur (String email, String mdp, Connection bdd){
@@ -40,7 +36,15 @@ public class Utilisateur {
         this.mdp = mdp;
         this.bdd = bdd;
     }
-
+    public boolean remListe(int id){
+        if (id<this.listes.size()){
+            this.listes.remove(id);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     public boolean connect(){
             try {
                 if (this.verifStringFormat(this.email)&&this.verifStringFormat(this.mdp)){
@@ -62,6 +66,13 @@ public class Utilisateur {
                         this.listes = new ArrayList<Liste>();
                         while (rs.next()){
                             this.listes.add(new Liste(rs.getString("nom"), rs.getString("description"), this.id_user, rs.getInt("id_liste"), this.bdd));
+                        }
+                        req = this.bdd.prepareStatement("SELECT id_type from type where ref_utilisateur = ? ;");
+                        req.setInt(1, this.id_user);
+                        rs = req.executeQuery();
+                        this.types = new ArrayList<Type>();
+                        while (rs.next()){
+                            this.types.add(new Type(rs.getInt("id_utilisateur"), this.bdd));
                         }
                         return true;
                     }else{return false;}
@@ -140,6 +151,17 @@ public class Utilisateur {
             return false;
         }
     }
+    public void remove() {
+        this.removed = true;
+        PreparedStatement req = null;
+        try {
+            req = this.bdd.prepareStatement("DELETE FROM utilisateur WHERE id_utilisateur = ?");
+            req.setInt(1,this.id_user);
+            req.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     public int getId_user(){return id_user;}
     public String getNom() {return nom;}
     public void setNom(String nom) {this.nom = nom;}
@@ -152,17 +174,9 @@ public class Utilisateur {
     public boolean isConnected() {return connected;}
     public ArrayList<Liste> getListes() {return listes;}
     public boolean isRemoved() {return removed;}
-    public void remove() {
-        this.removed = true;
-        PreparedStatement req = null;
-        try {
-            req = this.bdd.prepareStatement("DELETE FROM utilisateur WHERE id_utilisateur = ?");
-            req.setInt(1,this.id_user);
-            req.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
+    public ArrayList<Type> getTypes() {return types;}
+    public void setTypes(ArrayList<Type> types) {this.types = types;}
+
 
 }
 

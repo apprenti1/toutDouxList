@@ -45,36 +45,51 @@ public class Tache {
         }
     }
 
-    public void createTask(int ref_liste) throws SQLException {
+    public void createTask(int ref_liste){
         if (this.verifStringFormat(this.nom) && this.verifStringFormat(this.description)) {
-            PreparedStatement requetePrepare = this.bdd.prepareStatement("INSERT INTO tache (nom, description, est_realise, ref_liste) VALUES (?,?,?,?)");
-            requetePrepare.setString(1, nom);
-            requetePrepare.setString(2, description);
-            requetePrepare.setBoolean(3, realise);
-            requetePrepare.setInt(4, ref_liste);
-            requetePrepare.executeUpdate();
-            requetePrepare = this.bdd.prepareStatement("SELECT LAST_INSERT_ID() FROM tache");
-            ResultSet res = requetePrepare.executeQuery();
-            res.next();
-            this.id_tache = res.getInt(1);
+            PreparedStatement requetePrepare = null;
+            try {
+                requetePrepare = this.bdd.prepareStatement("INSERT INTO tache (nom, description, est_realise, ref_liste) VALUES (?,?,?,?)");
+                requetePrepare.setString(1, nom);
+                requetePrepare.setString(2, description);
+                requetePrepare.setBoolean(3, realise);
+                requetePrepare.setInt(4, ref_liste);
+                requetePrepare.executeUpdate();
+                requetePrepare = this.bdd.prepareStatement("SELECT LAST_INSERT_ID() FROM tache");
+                ResultSet res = requetePrepare.executeQuery();
+                res.next();
+                this.id_tache = res.getInt(1);
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    public void updateTask() throws SQLException {
+    public void updateTask(){
         if (this.verifStringFormat(this.nom) && this.verifStringFormat(this.description)) {
-            PreparedStatement requetePrepare = this.bdd.prepareStatement("UPDATE tache SET (nom = ?, description = ?, est_realise = ? WHERE id_tache = ?");
+            PreparedStatement requetePrepare = null;
+            try {
+                requetePrepare = this.bdd.prepareStatement("UPDATE tache SET (nom = ?, description = ?, est_realise = ? WHERE id_tache = ?");
             requetePrepare.setString(1, this.nom);
             requetePrepare.setString(2, this.description);
             requetePrepare.setBoolean(3, this.realise);
             requetePrepare.setInt(4, this.id_tache);
             requetePrepare.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    public void deleteTask() throws SQLException {
-        PreparedStatement requetePrepare = this.bdd.prepareStatement("DELETE FROM tache WHERE id_tache = ?");
+    public void deleteTask(){
+        PreparedStatement requetePrepare = null;
+        try {
+            requetePrepare = this.bdd.prepareStatement("DELETE FROM tache WHERE id_tache = ?");
         requetePrepare.setInt(1, this.id_tache);
         requetePrepare.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public void validTask() throws SQLException {
@@ -82,6 +97,9 @@ public class Tache {
         requetePrepare.setBoolean(1, this.realise);
         requetePrepare.setInt(2, this.id_tache);
         requetePrepare.executeUpdate();
+    }
+    public void interract(){
+        this.realise = !this.realise;
     }
 
     public int getId_tache() { return id_tache; }
@@ -91,7 +109,7 @@ public class Tache {
     public String getDescription() { return description; }
     public void setDescription(String description) { this.description = description; }
     public boolean isRealise() { return realise; }
-    public void setEst_realise(boolean est_realise) { this.realise = est_realise; }
+    public void setRealise(boolean est_realise) { this.realise = est_realise; }
     public Connection getBdd() { return bdd; }
     public void setBdd(Connection bdd) { this.bdd = bdd; }
     public Type getType() { return type; }
