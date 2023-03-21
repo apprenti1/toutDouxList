@@ -46,7 +46,7 @@ public class test_elias {
                         } else {
                             showLists(user);
                             System.out.print(cdt.color(1) + "\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4mcréer une liste\u001B[0m" + cdt.color(1) + "\n\t\t- (2) gérer une liste\n\t\t- (3) gérer les types de tâches\n\t\t- (4) voir mon profil\n\t\t- (5) se déconnecter\n\t\t- (6) quitter" + cdt.color(3) + "\n\t\t\t\u001B[1m>>\u001B[0m\t");
-                            switch (sc.choixInt(1, 5, 1)) {
+                            switch (sc.choixInt(1, 6, 1)) {
                                 case 1:
                                     createList(user.getId_user());
                                     user.connect();
