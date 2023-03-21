@@ -65,20 +65,30 @@ public class Type {
         }
     }
 
-    public void updateType() throws SQLException {
+    public void updateType(){
         if (this.verifStringFormat(this.libelle) && this.verifStringFormat(this.code_couleur)){
-            PreparedStatement requetePrepare = this.bdd.prepareStatement("UPDATE type SET libelle = ?, code_couleur = ? WHERE id_type = ?");
-            requetePrepare.setString(1, this.libelle);
-            requetePrepare.setString(2, this.code_couleur);
-            requetePrepare.setInt(3, this.id_type);
-            requetePrepare.executeUpdate();
+            PreparedStatement requetePrepare = null;
+            try {
+                requetePrepare = this.bdd.prepareStatement("UPDATE type SET libelle = ?, code_couleur = ? WHERE id_type = ?");
+                requetePrepare.setString(1, this.libelle);
+                requetePrepare.setString(2, this.code_couleur);
+                requetePrepare.setInt(3, this.id_type);
+                requetePrepare.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
-    public void deleteType() throws SQLException {
-        PreparedStatement requetePrepare = this.bdd.prepareStatement("DELETE FROM type WHERE id_type = ?");
-        requetePrepare.setInt(1, this.id_type);
-        requetePrepare.executeUpdate();
+    public void deleteType(){
+        PreparedStatement requetePrepare = null;
+        try {
+            requetePrepare = this.bdd.prepareStatement("DELETE FROM type WHERE id_type = ?");
+            requetePrepare.setInt(1, this.id_type);
+            requetePrepare.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     public int getId_type() { return id_type; }

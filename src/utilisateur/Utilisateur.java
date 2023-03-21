@@ -1,5 +1,4 @@
 package utilisateur;
-import customData.CustomData;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -19,9 +18,9 @@ public class Utilisateur {
     private String mdp;
     private String oldemail;
     private Connection bdd;
-    private boolean removed;
     private ArrayList<Liste> listes;
-    private ArrayList<Type> types;   private boolean connected = false;
+    private ArrayList<Type> types;
+    private boolean connected = false;
     public Utilisateur (String email, String mdp, Connection bdd){
         this.email = email;
         this.mdp = mdp;
@@ -34,7 +33,7 @@ public class Utilisateur {
         this.mdp = mdp;
         this.bdd = bdd;
     }
-    public boolean remListe(int id){
+    public boolean delListe(int id){
         if (id<this.listes.size()){
             this.listes.remove(id);
             return true;
@@ -43,6 +42,17 @@ public class Utilisateur {
             return false;
         }
     }
+
+    public boolean delType(int id){
+        if (id<this.types.size()){
+            this.types.remove(id);
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
     public boolean connect(){
             try {
                 if (this.verifStringFormat(this.email)&&this.verifStringFormat(this.mdp)){
@@ -103,12 +113,17 @@ public class Utilisateur {
         else{return false;}
     }
 
-    public void delete() throws SQLException {
+    public void delete(){
         if (this.connected){
-            PreparedStatement req = this.bdd.prepareStatement("DELETE FROM utilisateur WHERE id_utilisateur = ?");
+            PreparedStatement req = null;
+            try {
+                req = this.bdd.prepareStatement("DELETE FROM utilisateur WHERE id_utilisateur = ?");
             req.setInt(1, this.id_user);
             req.executeUpdate();
             this.connected = false;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -153,17 +168,6 @@ public class Utilisateur {
             return false;
         }
     }
-    public void remove() {
-        this.removed = true;
-        PreparedStatement req = null;
-        try {
-            req = this.bdd.prepareStatement("DELETE FROM utilisateur WHERE id_utilisateur = ?");
-            req.setInt(1,this.id_user);
-            req.executeUpdate();
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
-    }
     public int getId_user(){return id_user;}
     public String getNom() {return nom;}
     public void setNom(String nom) {this.nom = nom;}
@@ -175,7 +179,6 @@ public class Utilisateur {
     public void setMdp(String mdp) {this.mdp = mdp;}
     public boolean isConnected() {return connected;}
     public ArrayList<Liste> getListes() {return listes;}
-    public boolean isRemoved() {return removed;}
     public ArrayList<Type> getTypes() {return types;}
     public void setTypes(ArrayList<Type> types) {this.types = types;}
 

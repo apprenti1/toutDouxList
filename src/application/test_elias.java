@@ -36,7 +36,7 @@ public class test_elias {
                 if (!user.connect()) {
                     System.out.println("\t" + cdt.color(2) + "\u001B[1m$-----------E-mail ou Mot de passe incorrect !!------------$\u001B[0m");
                 } else {
-                    while (user != null && user.getId_user() != 0 && !user.isRemoved()) {
+                    while (user != null && user.getId_user() != 0 && user.isConnected()) {
                         System.out.println("\t" + cdt.color(0) + "\u001B[1m$---------------------------Home---------------------------$\u001B[0m");
 
                         if (user.getListes().size() == 0) {
@@ -70,17 +70,13 @@ public class test_elias {
                         }
                     }
                 }
-            } else {
-                createProfil();
-            }
+            } else {createProfil();}
         }
     }
 
 
 
-
-
-    private static void manageProfil(Utilisateur user) {
+    private static Boolean manageProfil(Utilisateur user) {
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         boolean quit = false;
@@ -116,11 +112,12 @@ public class test_elias {
                     user.setMdp(form[3]);
                     break;
                 case 7:
-                    user.remove();
-                    break;
+                    user.delete();
+                    return true;
             }
             user.update();
         }
+        return false;
     }
     private static void createProfil(){
         CustomData cdt = new CustomData();
@@ -134,7 +131,12 @@ public class test_elias {
             System.out.print("" + cdt.color(1) + "\n\t\tConfirmez vous la création de l'utilisateur :\n\t\tNom: " + form[0] + " | Prénom: " + form[1] + " | E-mail: " + form[2] + " | Mot de passe: " + form[3] + "\n\t\t- (\u001B[4mOUI/O\u001B[0m" + cdt.color(1) + ")\n\t\t- (NON/N)\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
             confirm = sc.nextLine();
         }
-        new Utilisateur(form[0], form[1], form[2], form[3], bdd).insert();
+        if (new Utilisateur(form[0], form[1], form[2], form[3], bdd).insert()){
+            System.out.println("\t" + cdt.color(1) + "\u001B[1m$---------------------Utilisateur créé---------------------$\u001B[0m");
+        }
+        else {
+            System.out.println("\t" + cdt.color(2) + "\u001B[1m$--------------Erreur E-mail déjà existant !!--------------$\u001B[0m");
+        }
     }
     private static void showProfil(Utilisateur user) {
         CustomData cdt = new CustomData();
@@ -183,7 +185,7 @@ public class test_elias {
                     break;
                 case 8:
                     liste.deleteList();
-                    user.remListe(choix);
+                    user.delListe(choix);
                     quit=true;
                     break;
             }
@@ -286,7 +288,42 @@ public class test_elias {
 
 
     private static void manageType(Utilisateur user){
-
+        CustomData cdt = new CustomData();
+        ConsoleScanner sc = new ConsoleScanner();
+        System.out.println("\t" + cdt.color(0) + "\u001B[1m$---------------------Gestion des types--------------------$\u001B[0m");
+        showTypes(user);
+        System.out.print(cdt.color(1) + "\n\t\tQuelle type souhaitez vous gérer :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+        int choix = sc.choixInt(1, user.getListes().size(), "\t" + cdt.color(2) + "\u001B[1m$-------------------Type innexistante !!!------------------$\u001B[0m") - 1;
+        Type type = user.getTypes().get(choix);
+        boolean quit = false;
+        while (!quit) {
+            System.out.println(cdt.color(1)+type.getLibelle()+" | "+"\u001B[38;2;"+type.getCode_couleur()+"m██");
+            System.out.print(cdt.color(1) + "\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4mrevenir à l'accueil\u001B[0m" + cdt.color(1) + "\n\t\t- (2) modifier la description\n\t\t- (3) modifier la couleur\n\t\t- (4) supprimer le type" + cdt.color(3) + "\n\t\t\t\u001B[1m>>\u001B[0m\t");
+            switch (sc.choixInt(1, 4, 1)) {
+                case 1:
+                    quit = true;
+                    break;
+                case 2:
+                    type.setLibelle(sc.form(cdt.color(1) + "\n\t\t", new String[]{"Description"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t")[0]);
+                    type.updateType();
+                    break;
+                case 3:
+                    String[] form = sc.form(cdt.color(1) + "\n\t\t", new String[]{"Couleur R", "Couleur G", "Couleur B"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+                    type.setCode_couleur(form[0] + ";" + form[1] + ";" + form[2]);
+                    break;
+                case 4:
+                    form = sc.form(cdt.color(1) + "\n\t\t", new String[]{"Libelle", "Couleur R", "Couleur G", "Couleur B"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+                    type.setLibelle(form[0]);
+                    type.setCode_couleur(form[1] + ";" + form[2] + ";" + form[3]);
+                    break;
+                case 5:
+                    type.deleteType();
+                    user.delType(choix);
+                    quit=true;
+                    break;
+            }
+            type.updateType();
+        }
     }
     private static Type createType(Utilisateur user) {
         CustomData cdt = new CustomData();
