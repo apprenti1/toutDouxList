@@ -122,7 +122,10 @@ public class Utilisateur {
             req.setString(4, this.mdp);
             req.executeUpdate();
             return true;
-            }catch(Exception e){return false;}
+            }catch(SQLException e){
+                System.out.println("SQL Error : "+e.getMessage()+"\nCode : "+e.getErrorCode()+"  |  State : "+e.getSQLState());
+                return false;
+            }
         }
         else{return false;}
     }
