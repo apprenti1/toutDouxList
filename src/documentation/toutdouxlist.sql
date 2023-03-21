@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `liste` (
   `description` varchar(50) NOT NULL,
    `ref_utilisateur` int(11) NOT NULL,
   PRIMARY KEY (`id_liste`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 INSERT INTO `liste` (`id_liste`, `nom`, `description`) VALUES
 (1, 'dfegtrhdg', 'ezrtysurutg'),
@@ -58,7 +58,7 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
   `login` varchar(100) NOT NULL,
   `mdp` varchar(50) NOT NULL,
   PRIMARY KEY (`id_utilisateur`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 ALTER TABLE `participe`
   ADD CONSTRAINT `fk_participe_liste` FOREIGN KEY (`ref_liste`) REFERENCES `liste` (`id_liste`),
@@ -67,7 +67,6 @@ ALTER TABLE `participe`
 ALTER TABLE `tache`
     ADD CONSTRAINT `fk_tache_liste` FOREIGN KEY (`ref_liste`) REFERENCES `liste` (`id_liste`),
   ADD CONSTRAINT `fk_tache_type` FOREIGN KEY (`ref_type`) REFERENCES `type` (`id_type`);
-COMMIT;
 
 ALTER TABLE `liste`
     ADD CONSTRAINT `fk_liste_utilisateur` FOREIGN KEY (`ref_utilisateur`) REFERENCES `utilisateur` (`id_utilisateur`);
