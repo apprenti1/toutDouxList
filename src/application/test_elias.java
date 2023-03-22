@@ -45,7 +45,7 @@ public class test_elias {
                             user.connect();
                         } else {
                             showLists(user);
-                            System.out.print(cdt.color(1) + "\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4mcréer une liste\u001B[0m" + cdt.color(1) + "\n\t\t- (2) gérer une liste\n\t\t- (3) gérer les types de tâches\n\t\t- (4) voir mon profil\n\t\t- (5) se déconnecter\n\t\t- (6) quitter" + cdt.color(3) + "\n\t\t\t\u001B[1m>>\u001B[0m\t");
+                            System.out.print(cdt.color(1) + "\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4mcréer une liste\u001B[0m" + cdt.color(1) + "\n\t\t- (2) gérer une liste\n\t\t- (3) voir mon profil\n\t\t- (4) se déconnecter\n\t\t- (5) quitter" + cdt.color(3) + "\n\t\t\t\u001B[1m>>\u001B[0m\t");
                             switch (sc.choixInt(1, 6, 1)) {
                                 case 1:
                                     createList(user.getId_user());
@@ -55,14 +55,12 @@ public class test_elias {
                                     manageList(user);
                                     break;
                                 case 3:
-                                    break;
-                                case 4:
                                     manageProfil(user);
                                     break;
-                                case 5:
+                                case 4:
                                     user = null;
                                     break;
-                                case 6:
+                                case 5:
                                     user = null;
                                     quit = true;
                                     break;
@@ -242,7 +240,7 @@ public class test_elias {
                     tache.updateTask();
                     break;
                 case 4:
-                    System.out.print(cdt.color(1) + "\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4sélectionner un type\u001B[0m" + cdt.color(1) + "\n\t\t- (2) créer un type" + cdt.color(3) + "\n\t\t\t\u001B[1m>>\u001B[0m\t");
+                    System.out.print(cdt.color(1) + "\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4msélectionner un type\u001B[0m" + cdt.color(1) + "\n\t\t- (2) créer un type" + cdt.color(3) + "\n\t\t\t\u001B[1m>>\u001B[0m\t");
                     if (sc.choixInt(1, 2, 1) == 1) {
                         tache.setType(selectType(user, "\t" + cdt.color(2) + "\u001B[1m$-------------------Tâche innexistante !!!-------------------$\u001B[0m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t"));
                     } else {
