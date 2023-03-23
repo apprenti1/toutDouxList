@@ -45,7 +45,7 @@ public class test_elias {
                             user.connect();
                         } else {
                             showLists(user);
-                            System.out.print(cdt.color(1) + "\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4mcréer une liste\u001B[0m" + cdt.color(1) + "\n\t\t- (2) gérer une liste\n\t\t- (3) voir mon profil\n\t\t- (4) se déconnecter\n\t\t- (5) quitter" + cdt.color(3) + "\n\t\t\t\u001B[1m>>\u001B[0m\t");
+                            System.out.print(cdt.color(1) + "\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4mcréer une liste\u001B[0m" + cdt.color(1) + "\n\t\t- (2) gérer une liste\n\t\t- (3) voir mon profil\n\t\t- (4) voir mon profil\n\t\t- (5) se déconnecter\n\t\t- (6) quitter" + cdt.color(3) + "\n\t\t\t\u001B[1m>>\u001B[0m\t");
                             switch (sc.choixInt(1, 6, 1)) {
                                 case 1:
                                     createList(user.getId_user());
@@ -55,12 +55,15 @@ public class test_elias {
                                     manageList(user);
                                     break;
                                 case 3:
-                                    manageProfil(user);
+                                    manageType(user);
                                     break;
                                 case 4:
-                                    user = null;
+                                    manageProfil(user);
                                     break;
                                 case 5:
+                                    user = null;
+                                    break;
+                                case 6:
                                     user = null;
                                     quit = true;
                                     break;
@@ -236,7 +239,7 @@ public class test_elias {
         boolean quit = false;
         while (!quit) {
             System.out.println(cdt.color(1) + "\u001B[1m\t\t[" + (tache.isRealise() ? "X" : " ") + "]|\u001B[38;2;" + tache.getType().getCode_couleur() + "m██" + cdt.color(1) + "|  \t" + tache.getNom() + "\t  |  \t" + tache.getDescription() + "\t  |  \t" + tache.getType().getLibelle() + "\t  |");
-            System.out.print(cdt.color(1) + "\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4mretourner à la gestion de la liste\u001B[0m" + cdt.color(1) + "\n\t\t- (2) changer le titre\n\t\t- (3) changer la description\n\t\t- (4) changer le type\n\t\t- (5) supprimer la tâche" + cdt.color(3) + "\n\t\t\t\u001B[1m>>\u001B[0m\t");
+            System.out.print(cdt.color(1) + "\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4mretourner à la gestion de la liste\u001B[0m" + cdt.color(1) + "\n\t\t- (2) changer le titre\n\t\t- (3) gérer un type\n\t\t- (4) changer le type\n\t\t- (5) supprimer la tâche" + cdt.color(3) + "\n\t\t\t\u001B[1m>>\u001B[0m\t");
             switch (sc.choixInt(1, 8, 1)) {
                 case 1:
                     quit=true;
@@ -310,8 +313,8 @@ public class test_elias {
         boolean quit = false;
         while (!quit) {
             System.out.println(cdt.color(1)+type.getLibelle()+" | "+"\u001B[38;2;"+type.getCode_couleur()+"m██");
-            System.out.print(cdt.color(1) + "\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4mrevenir à l'accueil\u001B[0m" + cdt.color(1) + "\n\t\t- (2) modifier la description\n\t\t- (3) modifier la couleur\n\t\t- (4) supprimer le type" + cdt.color(3) + "\n\t\t\t\u001B[1m>>\u001B[0m\t");
-            switch (sc.choixInt(1, 4, 1)) {
+            System.out.print(cdt.color(1) + "\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4mrevenir à l'accueil\u001B[0m" + cdt.color(1) + "\n\t\t- (2) modifier la description\n\t\t- (3) modifier la couleur\n\t\t- (4) modifier tout\n\t\t- (5) supprimer le type" + cdt.color(3) + "\n\t\t\t\u001B[1m>>\u001B[0m\t");
+            switch (sc.choixInt(1, 5, 1)) {
                 case 1:
                     quit = true;
                     break;
@@ -320,17 +323,18 @@ public class test_elias {
                     type.updateType();
                     break;
                 case 3:
-                    String[] form = sc.stringForm(cdt.color(1) + "\n\t\t", new String[]{"Couleur R", "Couleur G", "Couleur B"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
-                    type.setCode_couleur(form[0] + ";" + form[1] + ";" + form[2]);
+                    int[] colorForm = sc.intForm(cdt.color(1) + "\n\t\t", new String[]{"Couleur R", "Couleur G", "Couleur B"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+                    type.setCode_couleur(colorForm[0] + ";" + colorForm[1] + ";" + colorForm[2]);
                     break;
                 case 4:
-                    form = sc.stringForm(cdt.color(1) + "\n\t\t", new String[]{"Libelle", "Couleur R", "Couleur G", "Couleur B"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+                    String[] form = sc.stringForm(cdt.color(1) + "\n\t\t", new String[]{"Libelle"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+                    colorForm = sc.intForm(cdt.color(1) + "\n\t\t", new String[]{"Couleur R", "Couleur G", "Couleur B"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
                     type.setLibelle(form[0]);
-                    type.setCode_couleur(form[1] + ";" + form[2] + ";" + form[3]);
+                    type.setCode_couleur(colorForm[0] + ";" + colorForm[1] + ";" + colorForm[2]);
                     break;
                 case 5:
                     type.deleteType();
-                    user.delType(choix);
+                    user.connect();
                     quit=true;
                     break;
             }
@@ -343,7 +347,7 @@ public class test_elias {
         Connection bdd = cdt.getMaConnection();
         System.out.println("\t" + cdt.color(0) + "\u001B[1m$---------------------Crée ta type !!!---------------------$\u001B[0m");
         String[] form = sc.stringForm(cdt.color(1) + "\n\t\t", new String[]{"Libelle"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
-        int[] colorForm = sc.intForm(cdt.color(1) + "\n\t\t", new String[]{"Couleur R", "Couleur G", "Couleur B"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+        int[] colorForm = sc.intForm(cdt.color(1) + "\n\t\t", new String[]{"Couleur R", "Couleur G", "Couleur B"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
         Type type = new Type(form[0], colorForm[0] + ";" + colorForm[1] + ";" + colorForm[2], user.getId_user(), bdd);
         type.createType();
         user.getTypes().add(type);
