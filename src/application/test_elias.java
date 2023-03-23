@@ -12,7 +12,7 @@ import customData.CustomData;
 import todolist.*;
 
 public class test_elias {
-    public void main(String[] args) {
+    public static void main(String[] args) {
 
 
         ConsoleScanner sc = new ConsoleScanner();
@@ -74,7 +74,7 @@ public class test_elias {
 
 
 
-    private Boolean manageProfil(Utilisateur user) {
+    private static Boolean manageProfil(Utilisateur user) {
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         boolean quit = false;
@@ -117,7 +117,7 @@ public class test_elias {
         }
         return false;
     }
-    private void createProfil(){
+    private static void createProfil(){
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         Connection bdd = cdt.getMaConnection();
@@ -136,13 +136,13 @@ public class test_elias {
             System.out.println("\t" + cdt.color(2) + "\u001B[1m$--------------Erreur E-mail déjà existant !!--------------$\u001B[0m");
         }
     }
-    private void showProfil(Utilisateur user) {
+    private static void showProfil(Utilisateur user) {
         CustomData cdt = new CustomData();
         System.out.println(cdt.color(1) + "\t\tNom: " + cdt.color(4) + user.getNom() + cdt.color(1) + "\n\t\tPrénom: " + cdt.color(4) + user.getPrenom() + cdt.color(1) + "\n\t\tE-mail: " + cdt.color(4) + user.getEmail() + cdt.color(1) + "\n\t\tMot de passe: " + cdt.color(4) + user.getMdp());
     }
 
 
-    private void manageList(Utilisateur user) {
+    private static void manageList(Utilisateur user) {
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         System.out.println("\t" + cdt.color(0) + "\u001B[1m$---------------------Gestion de listes--------------------$\u001B[0m");
@@ -199,7 +199,7 @@ public class test_elias {
             }
         }
     }
-    private void createList(int userID) {
+    private static void createList(int userID) {
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         Connection bdd = cdt.getMaConnection();
@@ -207,7 +207,7 @@ public class test_elias {
         String[] form = sc.stringForm(cdt.color(1) + "\n\t\t", new String[]{"Nom", "Description"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
         new Liste(form[0], form[1], userID, bdd).createList();
     }
-    private void showList(Liste liste) {
+    private static void showList(Liste liste) {
         CustomData cdt = new CustomData();
         System.out.println("\n\t\t\u001B[1m" + cdt.color(4) + "$------" + liste.getNom() + "------$" + cdt.color(3) + "\n\t\t\t" + liste.getDescription());
         int increment = 1;
@@ -215,7 +215,7 @@ public class test_elias {
             System.out.println(cdt.color(1) + "\u001B[1m\t\t[" + (tache.isRealise() ? "X" : " ") + "]|" + increment++ + "|\u001B[38;2;" + tache.getType().getCode_couleur() + "m██" + cdt.color(1) + "|  \t" + tache.getNom() + "\t  |  \t" + tache.getDescription() + "\t  |");
         }
     }
-    private void showLists(Utilisateur user) {
+    private static void showLists(Utilisateur user) {
         CustomData cdt = new CustomData();
         System.out.println(cdt.color(1) + "\t\tVos listes :");
         int increment = 1;
@@ -226,7 +226,7 @@ public class test_elias {
     }
 
 
-    public void manageTache(Liste liste, Utilisateur user) {
+    public static void manageTache(Liste liste, Utilisateur user) {
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         System.out.println("\t" + cdt.color(0) + "\u001B[1m$--------------------Gerer une tache---------------------$\u001B[0m");
@@ -268,7 +268,7 @@ public class test_elias {
             }
         }
     }
-    private void createTache(Liste liste, Utilisateur user) {
+    private static void createTache(Liste liste, Utilisateur user) {
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         Connection bdd = cdt.getMaConnection();
@@ -289,7 +289,7 @@ public class test_elias {
         tache.createTask(liste.getId_liste());
         liste.addtask(tache);
     }
-    private Tache selectTache(Liste liste) {
+    private static Tache selectTache(Liste liste) {
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         showList(liste);
@@ -299,7 +299,7 @@ public class test_elias {
 
 
 
-    private void manageType(Utilisateur user){
+    private static void manageType(Utilisateur user){
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         System.out.println("\t" + cdt.color(0) + "\u001B[1m$---------------------Gestion des types--------------------$\u001B[0m");
@@ -337,7 +337,7 @@ public class test_elias {
             type.updateType();
         }
     }
-    private Type createType(Utilisateur user) {
+    private static Type createType(Utilisateur user) {
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         Connection bdd = cdt.getMaConnection();
@@ -349,7 +349,7 @@ public class test_elias {
         user.getTypes().add(type);
         return type;
     }
-    private void showTypes(Utilisateur user) {
+    private static void showTypes(Utilisateur user) {
         CustomData cdt = new CustomData();
         System.out.println(cdt.color(3) + "\n\t\tVos types :");
         ArrayList<Type> types = user.getTypes();
@@ -359,7 +359,7 @@ public class test_elias {
             increment+=1;
         }
     }
-    private Type selectType(Utilisateur user, String text) {
+    private static Type selectType(Utilisateur user, String text) {
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         showTypes(user);
