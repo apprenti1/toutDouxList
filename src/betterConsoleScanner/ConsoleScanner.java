@@ -1,7 +1,5 @@
 package betterConsoleScanner;
 
-import java.util.Arrays;
-import java.util.List;
 import java.util.Scanner;
 
 public class ConsoleScanner {
@@ -82,7 +80,7 @@ public class ConsoleScanner {
         }
     }
 
-    public String[] form(String beforeText, String[] formValues, String afterText, String formatErrorMessage){
+    public String[] stringForm(String beforeText, String[] formValues, String afterText, String formatErrorMessage){
         String[] result = new String[formValues.length];
         int increment = 0;
         for (String i:formValues) {
@@ -92,7 +90,7 @@ public class ConsoleScanner {
         }
         return result;
     }
-    public String[] form(String beforeText, String[] formValues, String afterText){
+    public String[] stringForm(String beforeText, String[] formValues, String afterText){
         String[] result = new String[formValues.length];
         int increment = 0;
         for (String i:formValues) {
@@ -102,6 +100,28 @@ public class ConsoleScanner {
         }
         return result;
     }
+
+    public int[] intForm(String beforeText, String[] formValues, String afterText, String formatErrorMessage){
+        int[] result = new int[formValues.length];
+        int increment = 0;
+        for (String i:formValues) {
+            System.out.print(beforeText+i+afterText);
+            result[increment] = this.nextInt(formatErrorMessage);
+            increment++;
+        }
+        return result;
+    }
+    public double[] doubleForm(String beforeText, String[] formValues, String afterText, String formatErrorMessage){
+        double[] result = new double[formValues.length];
+        int increment = 0;
+        for (String i:formValues) {
+            System.out.print(beforeText+i+afterText);
+            result[increment] = this.nextDouble(formatErrorMessage);
+            increment++;
+        }
+        return result;
+    }
+    
 
     private int indexOf(String value, String[] table){
         int result = -1;

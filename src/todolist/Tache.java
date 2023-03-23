@@ -70,12 +70,12 @@ public class Tache {
         if (this.verifStringFormat(this.nom) && this.verifStringFormat(this.description)) {
             PreparedStatement requetePrepare = null;
             try {
-                requetePrepare = this.bdd.prepareStatement("UPDATE tache SET (nom = ?, description = ?, est_realise = ? WHERE id_tache = ?");
-            requetePrepare.setString(1, this.nom);
-            requetePrepare.setString(2, this.description);
-            requetePrepare.setBoolean(3, this.realise);
-            requetePrepare.setInt(4, this.id_tache);
-            requetePrepare.executeUpdate();
+                requetePrepare = this.bdd.prepareStatement("UPDATE tache SET nom = ?, description = ?, est_realise = ? WHERE id_tache = ?");
+                requetePrepare.setString(1, this.nom);
+                requetePrepare.setString(2, this.description);
+                requetePrepare.setBoolean(3, this.realise);
+                requetePrepare.setInt(4, this.id_tache);
+                requetePrepare.executeUpdate();
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

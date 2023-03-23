@@ -86,7 +86,7 @@ public class Liste {
         if (this.verifStringFormat(this.nom) && this.verifStringFormat(this.description)) {
             PreparedStatement requetePrepare = null;
             try {
-                requetePrepare = this.bdd.prepareStatement("UPDATE liste SET (nom = ?, description = ? WHERE id_liste = ?");
+                requetePrepare = this.bdd.prepareStatement("UPDATE liste SET nom = ?, description = ? WHERE id_liste = ?");
                 requetePrepare.setString(1, this.nom);
                 requetePrepare.setString(2, this.description);
                 requetePrepare.setInt(3, this.id_liste);

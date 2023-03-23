@@ -12,7 +12,7 @@ import customData.CustomData;
 import todolist.*;
 
 public class test_elias {
-    public static void main(String[] args) {
+    public void main(String[] args) {
 
 
         ConsoleScanner sc = new ConsoleScanner();
@@ -31,7 +31,7 @@ public class test_elias {
             System.out.print("\t" + cdt.color(0) + "\u001B[1m$--------------Bienvenue dans ToutDouxList !!!-------------$\u001B[0m" + cdt.color(1) + "\n\t\tMerci de bien vouloir :\n\t\t- (1) \u001B[4mse connecter\u001B[0m" + cdt.color(1) + "\n\t\t- (2) s'inscrire\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
             if (sc.choixInt(1, 2, 1) == 1) {
                 System.out.println("\t" + cdt.color(0) + "\u001B[1m$------------------------Connection------------------------$\u001B[0m");
-                String[] form = sc.form(cdt.color(1) + "\n\t\t", new String[]{"E-mail", "Mot de passe"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+                String[] form = sc.stringForm(cdt.color(1) + "\n\t\t", new String[]{"E-mail", "Mot de passe"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
                 Utilisateur user = new Utilisateur(form[0], form[1], bdd);
                 if (!user.connect()) {
                     System.out.println("\t" + cdt.color(2) + "\u001B[1m$-----------E-mail ou Mot de passe incorrect !!------------$\u001B[0m");
@@ -74,7 +74,7 @@ public class test_elias {
 
 
 
-    private static Boolean manageProfil(Utilisateur user) {
+    private Boolean manageProfil(Utilisateur user) {
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         boolean quit = false;
@@ -103,7 +103,7 @@ public class test_elias {
                     user.setMdp(sc.nextLine());
                     break;
                 case 6:
-                    String[] form = sc.form(cdt.color(1) + "\n\t\t", new String[]{"Nom", "Prénom", "E-mail", "Mot de passe"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+                    String[] form = sc.stringForm(cdt.color(1) + "\n\t\t", new String[]{"Nom", "Prénom", "E-mail", "Mot de passe"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
                     user.setNom(form[0]);
                     user.setPrenom(form[1]);
                     user.setEmail(form[2]);
@@ -117,7 +117,7 @@ public class test_elias {
         }
         return false;
     }
-    private static void createProfil(){
+    private void createProfil(){
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         Connection bdd = cdt.getMaConnection();
@@ -125,7 +125,7 @@ public class test_elias {
         String confirm = "n";
         String[] form = new String[0];
         while (confirm.toLowerCase().equals("n") || confirm.toLowerCase().equals("non")) {
-            form = sc.form(cdt.color(1) + "\n\t\t", new String[]{"Nom", "Prénom", "E-mail", "Mot de passe"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+            form = sc.stringForm(cdt.color(1) + "\n\t\t", new String[]{"Nom", "Prénom", "E-mail", "Mot de passe"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
             System.out.print("" + cdt.color(1) + "\n\t\tConfirmez vous la création de l'utilisateur :\n\t\tNom: " + form[0] + " | Prénom: " + form[1] + " | E-mail: " + form[2] + " | Mot de passe: " + form[3] + "\n\t\t- (\u001B[4mOUI/O\u001B[0m" + cdt.color(1) + ")\n\t\t- (NON/N)\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
             confirm = sc.nextLine();
         }
@@ -136,13 +136,13 @@ public class test_elias {
             System.out.println("\t" + cdt.color(2) + "\u001B[1m$--------------Erreur E-mail déjà existant !!--------------$\u001B[0m");
         }
     }
-    private static void showProfil(Utilisateur user) {
+    private void showProfil(Utilisateur user) {
         CustomData cdt = new CustomData();
         System.out.println(cdt.color(1) + "\t\tNom: " + cdt.color(4) + user.getNom() + cdt.color(1) + "\n\t\tPrénom: " + cdt.color(4) + user.getPrenom() + cdt.color(1) + "\n\t\tE-mail: " + cdt.color(4) + user.getEmail() + cdt.color(1) + "\n\t\tMot de passe: " + cdt.color(4) + user.getMdp());
     }
 
 
-    private static void manageList(Utilisateur user) {
+    private void manageList(Utilisateur user) {
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         System.out.println("\t" + cdt.color(0) + "\u001B[1m$---------------------Gestion de listes--------------------$\u001B[0m");
@@ -159,24 +159,34 @@ public class test_elias {
                     quit = true;
                     break;
                 case 2:
-                    selectTache(liste).interract();
+                    if (liste.getTaches().size()!=0) {
+                        selectTache(liste).interract();
+                    }
+                    else {
+                        System.out.println("\t" + cdt.color(2) + "\u001B[1m$----------------Aucune tâche n'est créé !!!-----------------$\u001B[0m");
+                    }
                     break;
                 case 3:
                     createTache(liste, user);
                     break;
                 case 4:
-                    manageTache(liste, user);
+                    if (liste.getTaches().size()!=0) {
+                        manageTache(liste, user);
+                    }
+                    else {
+                        System.out.println("\t" + cdt.color(2) + "\u001B[1m$----------------Aucune tâche n'est créé !!!-----------------$\u001B[0m");
+                    }
                     break;
                 case 5:
-                    liste.setNom(sc.form(cdt.color(1) + "\n\t\t", new String[]{"Titre"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t")[0]);
+                    liste.setNom(sc.stringForm(cdt.color(1) + "\n\t\t", new String[]{"Titre"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t")[0]);
                     liste.updateList();
                     break;
                 case 6:
-                    liste.setNom(sc.form(cdt.color(1) + "\n\t\t", new String[]{"Description"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t")[0]);
+                    liste.setDescription(sc.stringForm(cdt.color(1) + "\n\t\t", new String[]{"Description"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t")[0]);
                     liste.updateList();
                     break;
                 case 7:
-                    String[] form = sc.form(cdt.color(1) + "\n\t\t", new String[]{"Titre", "Description"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+                    String[] form = sc.stringForm(cdt.color(1) + "\n\t\t", new String[]{"Titre", "Description"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
                     liste.setNom(form[0]);
                     liste.setDescription(form[1]);
                     liste.updateList();
@@ -189,15 +199,15 @@ public class test_elias {
             }
         }
     }
-    private static void createList(int userID) {
+    private void createList(int userID) {
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         Connection bdd = cdt.getMaConnection();
         System.out.println("\t" + cdt.color(0) + "\u001B[1m$--------------------Crée ta liste !!!---------------------$\u001B[0m");
-        String[] form = sc.form(cdt.color(1) + "\n\t\t", new String[]{"Nom", "Description"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+        String[] form = sc.stringForm(cdt.color(1) + "\n\t\t", new String[]{"Nom", "Description"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
         new Liste(form[0], form[1], userID, bdd).createList();
     }
-    private static void showList(Liste liste) {
+    private void showList(Liste liste) {
         CustomData cdt = new CustomData();
         System.out.println("\n\t\t\u001B[1m" + cdt.color(4) + "$------" + liste.getNom() + "------$" + cdt.color(3) + "\n\t\t\t" + liste.getDescription());
         int increment = 1;
@@ -205,7 +215,7 @@ public class test_elias {
             System.out.println(cdt.color(1) + "\u001B[1m\t\t[" + (tache.isRealise() ? "X" : " ") + "]|" + increment++ + "|\u001B[38;2;" + tache.getType().getCode_couleur() + "m██" + cdt.color(1) + "|  \t" + tache.getNom() + "\t  |  \t" + tache.getDescription() + "\t  |");
         }
     }
-    private static void showLists(Utilisateur user) {
+    private void showLists(Utilisateur user) {
         CustomData cdt = new CustomData();
         System.out.println(cdt.color(1) + "\t\tVos listes :");
         int increment = 1;
@@ -216,7 +226,7 @@ public class test_elias {
     }
 
 
-    public static void manageTache(Liste liste, Utilisateur user) {
+    public void manageTache(Liste liste, Utilisateur user) {
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         System.out.println("\t" + cdt.color(0) + "\u001B[1m$--------------------Gerer une tache---------------------$\u001B[0m");
@@ -232,16 +242,20 @@ public class test_elias {
                     quit=true;
                     break;
                 case 2:
-                    tache.setNom(sc.form(cdt.color(1) + "\n\t\t", new String[]{"Nom"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t")[0]);
+                    tache.setNom(sc.stringForm(cdt.color(1) + "\n\t\t", new String[]{"Nom"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t")[0]);
                     tache.updateTask();
                     break;
                 case 3:
-                    tache.setNom(sc.form(cdt.color(1) + "\n\t\t", new String[]{"Description"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t")[0]);
+                    tache.setNom(sc.stringForm(cdt.color(1) + "\n\t\t", new String[]{"Description"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t")[0]);
                     tache.updateTask();
                     break;
                 case 4:
-                    System.out.print(cdt.color(1) + "\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4msélectionner un type\u001B[0m" + cdt.color(1) + "\n\t\t- (2) créer un type" + cdt.color(3) + "\n\t\t\t\u001B[1m>>\u001B[0m\t");
-                    if (sc.choixInt(1, 2, 1) == 1) {
+                    int choix;
+                    if (user.getTypes().size()!=0) {
+                        System.out.print(cdt.color(1) + "\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4msélectionner un type\u001B[0m" + cdt.color(1) + "\n\t\t- (2) créer un type" + cdt.color(3) + "\n\t\t\t\u001B[1m>>\u001B[0m\t");
+                        choix = sc.choixInt(1, 2, 1);
+                    } else {choix = 2;}
+                    if (choix == 1) {
                         tache.setType(selectType(user, "\t" + cdt.color(2) + "\u001B[1m$-------------------Tâche innexistante !!!-------------------$\u001B[0m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t"));
                     } else {
                         tache.setType(createType(user));
@@ -254,12 +268,12 @@ public class test_elias {
             }
         }
     }
-    private static void createTache(Liste liste, Utilisateur user) {
+    private void createTache(Liste liste, Utilisateur user) {
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         Connection bdd = cdt.getMaConnection();
         System.out.println("\t" + cdt.color(0) + "\u001B[1m$--------------------Crée ta tache !!!---------------------$\u001B[0m");
-        String[] form = sc.form(cdt.color(1) + "\n\t\t", new String[]{"Titre", "Description"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+        String[] form = sc.stringForm(cdt.color(1) + "\n\t\t", new String[]{"Titre", "Description"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
         Tache tache;
         if (user.getTypes().size()>0) {
             System.out.print(cdt.color(1) + "\n\t\tQue souhaitez vous faire :\n\t\t- (1) \u001B[4msélectionner un type\u001B[0m" + cdt.color(1) + "\n\t\t- (2) créer un type" + cdt.color(3) + "\n\t\t\t\u001B[1m>>\u001B[0m\t");
@@ -275,7 +289,7 @@ public class test_elias {
         tache.createTask(liste.getId_liste());
         liste.addtask(tache);
     }
-    private static Tache selectTache(Liste liste) {
+    private Tache selectTache(Liste liste) {
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         showList(liste);
@@ -285,7 +299,7 @@ public class test_elias {
 
 
 
-    private static void manageType(Utilisateur user){
+    private void manageType(Utilisateur user){
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         System.out.println("\t" + cdt.color(0) + "\u001B[1m$---------------------Gestion des types--------------------$\u001B[0m");
@@ -302,15 +316,15 @@ public class test_elias {
                     quit = true;
                     break;
                 case 2:
-                    type.setLibelle(sc.form(cdt.color(1) + "\n\t\t", new String[]{"Description"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t")[0]);
+                    type.setLibelle(sc.stringForm(cdt.color(1) + "\n\t\t", new String[]{"Description"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t")[0]);
                     type.updateType();
                     break;
                 case 3:
-                    String[] form = sc.form(cdt.color(1) + "\n\t\t", new String[]{"Couleur R", "Couleur G", "Couleur B"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+                    String[] form = sc.stringForm(cdt.color(1) + "\n\t\t", new String[]{"Couleur R", "Couleur G", "Couleur B"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
                     type.setCode_couleur(form[0] + ";" + form[1] + ";" + form[2]);
                     break;
                 case 4:
-                    form = sc.form(cdt.color(1) + "\n\t\t", new String[]{"Libelle", "Couleur R", "Couleur G", "Couleur B"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+                    form = sc.stringForm(cdt.color(1) + "\n\t\t", new String[]{"Libelle", "Couleur R", "Couleur G", "Couleur B"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
                     type.setLibelle(form[0]);
                     type.setCode_couleur(form[1] + ";" + form[2] + ";" + form[3]);
                     break;
@@ -323,29 +337,33 @@ public class test_elias {
             type.updateType();
         }
     }
-    private static Type createType(Utilisateur user) {
+    private Type createType(Utilisateur user) {
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         Connection bdd = cdt.getMaConnection();
-        System.out.println("\t" + cdt.color(0) + "\u001B[1m$--------------------Crée ta tâche !!!---------------------$\u001B[0m");
-        String[] form = sc.form(cdt.color(1) + "\n\t\t", new String[]{"Libelle", "Couleur R", "Couleur G", "Couleur B"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
-        Type type = new Type(form[0], form[1] + ";" + form[2] + ";" + form[3], user.getId_user(), bdd);
+        System.out.println("\t" + cdt.color(0) + "\u001B[1m$---------------------Crée ta type !!!---------------------$\u001B[0m");
+        String[] form = sc.stringForm(cdt.color(1) + "\n\t\t", new String[]{"Libelle"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+        int[] colorForm = sc.intForm(cdt.color(1) + "\n\t\t", new String[]{"Couleur R", "Couleur G", "Couleur B"}, " :\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t", "\t" + cdt.color(2) + "\u001B[1m$-----------------/!\\ format incorrect /!\\-----------------$\n\t\tLes charactères suivants sont à ne pas utiliser :\n\t\t\t\t('\"',''',' ','(',')')\n\t$----------------------------------------------------------$\u001B[1m\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
+        Type type = new Type(form[0], colorForm[0] + ";" + colorForm[1] + ";" + colorForm[2], user.getId_user(), bdd);
         type.createType();
+        user.getTypes().add(type);
         return type;
     }
-    private static void showTypes(Utilisateur user) {
+    private void showTypes(Utilisateur user) {
         CustomData cdt = new CustomData();
         System.out.println(cdt.color(3) + "\n\t\tVos types :");
         ArrayList<Type> types = user.getTypes();
         int increment = 1;
         for (Type type : types) {
-            System.out.println(cdt.color(1) + "\n\t\t|" + increment + "|\u001B[38;2;" + type.getCode_couleur() + "m██" + cdt.color(1) + "|  \t" + type.getLibelle() + "\t  |");
+            System.out.print(cdt.color(1) + "\n\t\t|" + increment + "|\u001B[38;2;" + type.getCode_couleur() + "m██" + cdt.color(1) + "|  \t" + type.getLibelle() + "\t  |");
+            increment+=1;
         }
     }
-    private static Type selectType(Utilisateur user, String text) {
+    private Type selectType(Utilisateur user, String text) {
         CustomData cdt = new CustomData();
         ConsoleScanner sc = new ConsoleScanner();
         showTypes(user);
+        System.out.print("\n\t\t\t" + cdt.color(3) + "\u001B[1m>>\u001B[0m\t");
         return user.getTypes().get(sc.choixInt(1, user.getTypes().size(), text) - 1);
     }
 
